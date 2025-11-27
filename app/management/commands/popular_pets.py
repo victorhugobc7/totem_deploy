@@ -3,11 +3,23 @@ from app.models import Pet
 
 class Command(BaseCommand):
     help = 'Popula o banco de dados com os 9 gatos do MaryCats'
+    
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--force',
+            action='store_true',
+            help='Força a recriação dos pets mesmo se já existirem',
+        )
 
     def handle(self, *args, **options):
-        # Verificar se já existem pets para evitar duplicação
-        if Pet.objects.exists():
-            self.stdout.write(self.style.WARNING('Pets já existem no banco de dados. Use --force para recriar.'))
+        # Se --force foi passado, limpar pets existentes
+        if options.get('force'):
+            Pet.objects.all().delete()
+            self.stdout.write(self.style.WARNING('Pets existentes removidos.'))
+        elif Pet.objects.exists():
+            # Se já existem pets e não foi passado --force, apenas avisar e continuar
+            count = Pet.objects.count()
+            self.stdout.write(self.style.SUCCESS(f'✓ {count} pets já existem no banco de dados.'))
             return
         
         pets_data = [
