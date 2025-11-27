@@ -2,8 +2,10 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.tela_comecar, name='tela_comecar'),
+    path('', views.test_view, name='test_view'),
     path('comecar/', views.tela_comecar, name='comecar'),
+    path('test/', views.test_view, name='test'),
+    path('original/', views.tela_comecar, name='tela_comecar'),
     path('pergunta/dupla/<int:step>/', views.pergunta_dupla, name='pergunta_dupla'),
     path('pergunta/tripla/<int:step>/', views.pergunta_tripla, name='pergunta_tripla'),
     path('salvar-preferencia/', views.salvar_preferencia, name='salvar_preferencia'),

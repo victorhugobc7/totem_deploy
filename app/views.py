@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
@@ -7,6 +7,31 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from .models import Pet, PetImagem
 import json
+
+def test_view(request):
+    """Simple test view to verify deployment"""
+    html = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Test - MaryCats Totem</title>
+        <style>
+            body { font-family: Arial; text-align: center; padding: 50px; background: #b11c6c; color: white; }
+            h1 { font-size: 48px; }
+            .success { color: #fdd12c; }
+        </style>
+    </head>
+    <body>
+        <h1>🎉 <span class="success">Success!</span> 🎉</h1>
+        <h2>MaryCats Totem is LIVE on Railway!</h2>
+        <p>Django server is running correctly.</p>
+        <p>Domain: cuxrie.xyz</p>
+        <hr>
+        <p><a href="/comecar/" style="color: #fdd12c;">Go to Main App</a></p>
+    </body>
+    </html>
+    """
+    return HttpResponse(html)
 
 def calcular_compatibilidade(pet, preferencias):
     """Calcula a compatibilidade entre um pet e as preferências do usuário"""
