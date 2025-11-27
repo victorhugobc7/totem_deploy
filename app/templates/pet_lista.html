@@ -4,7 +4,7 @@
 {% block title %}Pets Recomendados - Totem de Adoção{% endblock %}
 
 {% block content %}
-<div class="container-fluid bg-dark-pink py-5">
+<div class="container-fluid bg-dark-pink h-100 py-5">
     <div class="container">
         <!-- Header -->
         <div class="row mb-5">
@@ -20,53 +20,51 @@
             {% for item in pets_compatíveis %}
                 {% with pet=item.pet compatibilidade=item.compatibilidade %}
                 <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 shadow-lg border-0 rounded-4 bg-white bg-opacity-10">
-                        
-                        <!-- Imagem do Pet -->
-                        <div class="card-img-top-container">
-                            {% if pet.imagens.first %}
-                                <img src="{{ pet.imagens.first.imagem.url }}" 
-                                     class="card-img-top w-100 h-100" 
-                                     alt="{{ pet.nome }}">
-                            {% elif item.static_image_path %}
-                                <img src="{% static item.static_image_path %}" 
-                                     class="card-img-top w-100 h-100" 
-                                     alt="{{ pet.nome }}">
-                            {% else %}
-                                <div class="d-flex align-items-center justify-content-center h-100 bg-light">
-                                    <div class="text-center text-muted">
-                                        <i class="fas fa-paw fa-3x mb-2"></i>
-                                        <p>Sem foto disponível</p>
+                    <a href="{% url 'pet_detalhes' pet.id %}" class="text-decoration-none">
+                        <div class="card h-100 shadow-lg border-0 rounded-4 bg-white bg-opacity-10 card-hover">
+                            <!-- Imagem do Pet -->
+                            <div class="card-img-top-container">
+                                {% if pet.imagens.first %}
+                                    <img src="{{ pet.imagens.first.imagem.url }}" 
+                                         class="card-img-top w-100 h-100" 
+                                         alt="{{ pet.nome }}">
+                                {% elif item.static_image_path %}
+                                    <img src="{% static item.static_image_path %}" 
+                                         class="card-img-top w-100 h-100" 
+                                         alt="{{ pet.nome }}">
+                                {% else %}
+                                    <div class="d-flex align-items-center justify-content-center h-100 bg-light">
+                                        <div class="text-center text-muted">
+                                            <i class="fas fa-paw fa-3x mb-2"></i>
+                                            <p>Sem foto disponível</p>
+                                        </div>
                                     </div>
+                                {% endif %}
+                            </div>
+                            <!-- Corpo do Card -->
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title text-marycats-yellow fw-bold mb-2">{{ pet.nome }}</h5>
+                                <p class="card-text text-white-50 mb-2">
+                                    <small>{{ pet.raca }} • {{ pet.get_porte_display }}</small>
+                                </p>
+                                <p class="card-text text-white mb-3">
+                                    <i class="fas fa-calendar-alt me-1 text-marycats-yellow"></i>
+                                    {{ pet.idade }} ano{{ pet.idade|pluralize }}
+                                </p>
+                                <!-- Personalidade -->
+                                <div class="mb-3">
+                                    <small class="text-white-50 d-block mb-1">Personalidade:</small>
+                                    <p class="small text-white">{{ pet.personalidade|truncatewords:15 }}</p>
                                 </div>
-                            {% endif %}
-                        </div>
-                        
-                        <!-- Corpo do Card -->
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title text-marycats-yellow fw-bold mb-2">{{ pet.nome }}</h5>
-                            <p class="card-text text-white-50 mb-2">
-                                <small>{{ pet.raca }} • {{ pet.get_porte_display }}</small>
-                            </p>
-                            <p class="card-text text-white mb-3">
-                                <i class="fas fa-calendar-alt me-1 text-marycats-yellow"></i>
-                                {{ pet.idade }} ano{{ pet.idade|pluralize }}
-                            </p>
-                            
-                            <!-- Personalidade -->
-                            <div class="mb-3">
-                                <small class="text-white-50 d-block mb-1">Personalidade:</small>
-                                <p class="small text-white">{{ pet.personalidade|truncatewords:15 }}</p>
-                            </div>
-                            
-                            <!-- Botão -->
-                            <div class="mt-auto">
-                                <a href="{% url 'pet_detalhes' pet.id %}" class="btn bg-marycats-yellow text-marycats-dark-pink w-100 rounded-pill fw-bold border-0">
-                                    <i class="fas fa-heart me-2"></i>Ver Detalhes
-                                </a>
+                                <!-- Botão -->
+                                <div class="mt-auto">
+                                    <span class="btn bg-marycats-yellow text-marycats-dark-pink w-100 rounded-pill fw-bold border-0">
+                                        <i class="fas fa-heart me-2"></i>Ver Detalhes
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 {% endwith %}
             {% endfor %}
@@ -82,9 +80,9 @@
         </div>
     {% else %}
         <!-- Mensagem quando não há pets -->
-        <div class="row">
+        <div class="row w-100">
             <div class="col-12 text-center">
-                <div class="card border-0 shadow-lg rounded-4 bg-white bg-opacity-10">
+                <div class="card border-0 shadow-lg rounded-4 bg-white bg-opacity-10 w-100">
                     <div class="card-body p-5">
                         <div class="display-1 text-white-50 mb-4">😔</div>
                         <h3 class="text-marycats-yellow mb-3">Nenhum pet encontrado</h3>

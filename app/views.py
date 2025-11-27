@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -19,18 +20,13 @@ def calcular_compatibilidade(pet, preferencias):
     else:
         pontuacao += 20
     
-    # Porte (0-25 pontos)
-    porte_compatibilidade = {
-        'pequeno': {'pequeno': 25, 'medio': 15, 'grande': 5},
-        'medio': {'pequeno': 15, 'medio': 25, 'grande': 15},
-        'grande': {'pequeno': 5, 'medio': 15, 'grande': 25}
-    }
-    
-    preferencia_porte = preferencias.get('porte')
-    if preferencia_porte and preferencia_porte != 'sem_preferencia':
-        pontuacao += porte_compatibilidade.get(preferencia_porte, {}).get(pet.porte, 0)
+    # Sexo (0-25 pontos)
+    sexo_preferido = preferencias.get('sexo')
+    if sexo_preferido and sexo_preferido != 'sem_preferencia':
+        if pet.sexo == sexo_preferido:
+            pontuacao += 25
     else:
-        pontuacao += 20  # Pontuação média se não houver preferência
+        pontuacao += 12  # Pontuação média se não houver preferência
     
     # Idade (0-20 pontos)
     idade_preferida = preferencias.get('idade')
@@ -74,7 +70,7 @@ def pergunta_dupla(request, step=1):
     """Perguntas com duas opções"""
     perguntas = {
         1: {
-            'titulo': 'Você prefere um cachorro ou um gato?',
+            'titulo': 'Qual tipo de pet você está procurando?',
             'opcoes': [
                 {'valor': 'cachorro', 'texto': 'Cachorro', 'icone': 'fas fa-dog fa-5x'},
                 {'valor': 'gato', 'texto': 'Gato', 'icone': 'fas fa-cat fa-5x'}
@@ -95,7 +91,7 @@ def pergunta_dupla(request, step=1):
                 {'valor': 'filhote', 'texto': 'Filhote (0-2 anos)', 'icone': 'fas fa-dog fa-5x'},
                 {'valor': 'adulto', 'texto': 'Adulto (3-7 anos)', 'icone': 'fas fa-paw fa-5x'}
             ],
-            'proxima': '/pergunta/tripla/4/'
+            'proxima': '/resultados/'
         }
     }
     
@@ -122,8 +118,8 @@ def pergunta_tripla(request, step=2):
         }
     }
     
-        # Porte question disabled: always redirect to resultados
-        return redirect('resultados')
+    # Porte question disabled: always redirect to resultados
+    return redirect('resultados')
 
 def salvar_preferencia(request):
     """Salva as preferências do usuário na sessão"""
@@ -148,25 +144,37 @@ def resultados(request):
     # Buscar pets disponíveis
     pets_disponiveis = Pet.objects.filter(disponivel=True)
     
-    # Calcular compatibilidade
+    # Apply strict filters first
+    tipo_preferido = preferencias.get('tipo')
+    if tipo_preferido and tipo_preferido != 'sem_preferencia':
+        pets_disponiveis = pets_disponiveis.filter(tipo=tipo_preferido)
+    
+    sexo_preferido = preferencias.get('sexo')
+    if sexo_preferido and sexo_preferido != 'sem_preferencia':
+        pets_disponiveis = pets_disponiveis.filter(sexo=sexo_preferido)
+    
+    idade_preferida = preferencias.get('idade')
+    if idade_preferida and idade_preferida != 'sem_preferencia':
+        if idade_preferida == 'filhote':
+            pets_disponiveis = pets_disponiveis.filter(idade__lte=2)
+        elif idade_preferida == 'adulto':
+            pets_disponiveis = pets_disponiveis.filter(idade__gte=3, idade__lte=7)
+        elif idade_preferida == 'idoso':
+            pets_disponiveis = pets_disponiveis.filter(idade__gte=8)
+    
+    # Build results list
     pets_compatíveis = []
     for pet in pets_disponiveis:
-        compatibilidade = calcular_compatibilidade(pet, preferencias)
-        if compatibilidade >= 50:  # Mostrar apenas pets com 50%+ compatibilidade
-            # Check if pet has images in database, if not, try to find in static folder
-            if not pet.imagens.exists():
-                static_image_path = f"images/info-pets/Imagens/{pet.nome}.png"
-            else:
-                static_image_path = None
-                
-            pets_compatíveis.append({
-                'pet': pet,
-                'compatibilidade': compatibilidade,
-                'static_image_path': static_image_path
-            })
-    
-    # Ordenar por compatibilidade
-    pets_compatíveis.sort(key=lambda x: x['compatibilidade'], reverse=True)
+        if not pet.imagens.exists():
+            static_image_path = f"images/info-pets/Imagens/{pet.nome}.png"
+        else:
+            static_image_path = None
+            
+        pets_compatíveis.append({
+            'pet': pet,
+            'compatibilidade': 100,
+            'static_image_path': static_image_path
+        })
     
     return render(request, 'pet_lista.html', {
         'pets_compatíveis': pets_compatíveis,
@@ -303,3 +311,72 @@ def core_cadastrar_pet(request):
             messages.error(request, f'Erro ao cadastrar pet: {str(e)}')
     
     return render(request, 'core/cadastrar_pet.html', {})
+
+def painel_pets(request):
+    """Admin panel to manage all pets with filtering"""
+    q = request.GET.get('q', '').strip()
+    filtro_disponivel = request.GET.get('disponivel')
+    
+    pets = Pet.objects.all()
+    
+    if q:
+        pets = pets.filter(nome__icontains=q)
+    
+    if filtro_disponivel in ['true', 'false']:
+        pets = pets.filter(disponivel=(filtro_disponivel == 'true'))
+    
+    pets = pets.order_by('nome')
+    
+    return render(request, 'painel_pets.html', {
+        'pets': pets,
+        'q': q,
+        'filtro_disponivel': filtro_disponivel
+    })
+
+def editar_pet(request, pet_id):
+    """Edit existing pet"""
+    pet = get_object_or_404(Pet, id=pet_id)
+    
+    if request.method == 'POST':
+        try:
+            pet.nome = request.POST.get('nome')
+            pet.tipo = request.POST.get('tipo')
+            pet.raca = request.POST.get('raca')
+            pet.idade = int(request.POST.get('idade'))
+            pet.porte = request.POST.get('porte')
+            pet.personalidade = request.POST.get('personalidade')
+            pet.descricao = request.POST.get('descricao', '')
+            pet.save()
+            
+            if request.FILES.get('imagem'):
+                PetImagem.objects.create(
+                    pet=pet,
+                    imagem=request.FILES.get('imagem'),
+                    principal=False
+                )
+            
+            messages.success(request, 'Pet atualizado com sucesso!')
+            return redirect('painel_pets')
+        except Exception as e:
+            messages.error(request, f'Erro ao atualizar pet: {str(e)}')
+    
+    return render(request, 'editar_pet.html', {
+        'pet': pet
+    })
+
+def excluir_pet(request, pet_id):
+    """Delete a pet"""
+    pet = get_object_or_404(Pet, id=pet_id)
+    if request.method == 'POST':
+        pet.delete()
+        messages.success(request, f'Pet {pet.nome} excluído com sucesso!')
+    return redirect('painel_pets')
+
+@csrf_exempt
+def alternar_disponibilidade_pet(request, pet_id):
+    pet = get_object_or_404(Pet, id=pet_id)
+    if request.method == 'POST':
+        pet.disponivel = not pet.disponivel
+        pet.save()
+        messages.success(request, f"Disponibilidade de {pet.nome} alterada para {'Disponível' if pet.disponivel else 'Indisponível'}.")
+    return redirect('painel_pets')

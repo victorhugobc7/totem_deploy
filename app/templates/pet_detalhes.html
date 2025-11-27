@@ -59,19 +59,12 @@
                 <!-- Card Único com Flex Layout -->
                 <div class="card border-0 shadow-lg rounded-4 mb-4 bg-white bg-opacity-10">
                     <div class="card-body">
-                        <div class="d-flex flex-wrap gap-4 justify-content-around">
+                        <div class="d-flex flex-wrap gap-4 justify-content-center">
                             <!-- Idade -->
                             <div class="text-center">
                                 <i class="fas fa-calendar-alt fa-3x text-marycats-yellow mb-3"></i>
                                 <h4 class="text-white mb-2">Idade</h4>
                                 <p class="fw-bold text-white mb-0 fs-4">{{ pet.idade }} ano{{ pet.idade|pluralize }}</p>
-                            </div>
-                            
-                            <!-- Porte -->
-                            <div class="text-center">
-                                <i class="fas fa-weight fa-3x text-marycats-yellow mb-3"></i>
-                                <h4 class="text-white mb-2">Porte</h4>
-                                <p class="fw-bold text-white mb-0 fs-4">{{ pet.get_porte_display }}</p>
                             </div>
                         </div>
                     </div>

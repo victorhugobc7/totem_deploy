@@ -73,7 +73,14 @@
                             <td class="text-end" style="width: 180px;">
                                 <div class="d-flex justify-content-end align-items-center gap-2 flex-nowrap">
                                     <a href="{% url 'editar_pet' pet.id %}" class="btn btn-sm btn-outline-primary rounded-pill" aria-label="Editar"><i class="fas fa-edit"></i></a>
-                                    <a href="{% url 'alternar_disponibilidade_pet' pet.id %}" class="btn btn-sm btn-outline-warning rounded-pill" aria-label="Alternar disponibilidade"><i class="fas fa-toggle-on"></i></a>
+                                    <form action="{% url 'alternar_disponibilidade_pet' pet.id %}" method="post" class="d-inline">
+                                        {% csrf_token %}
+                                        {% if pet.disponivel %}
+                                            <button class="btn btn-sm btn-outline-warning rounded-pill" title="Desativar" aria-label="Desativar"><i class="fas fa-toggle-on"></i></button>
+                                        {% else %}
+                                            <button class="btn btn-sm btn-outline-success rounded-pill" title="Ativar" aria-label="Ativar"><i class="fas fa-toggle-off"></i></button>
+                                        {% endif %}
+                                    </form>
                                     <form action="{% url 'excluir_pet' pet.id %}" method="post" class="d-inline" onsubmit="return confirm('Tem certeza que deseja excluir {{ pet.nome }}?')">
                                         {% csrf_token %}
                                         <button class="btn btn-sm btn-outline-danger rounded-pill" aria-label="Excluir"><i class="fas fa-trash"></i></button>

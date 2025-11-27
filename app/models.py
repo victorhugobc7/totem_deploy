@@ -13,8 +13,14 @@ class Pet(models.Model):
         ('grande', 'Grande'),
     ]
     
+    SEXO_CHOICES = [
+        ('macho', 'Macho'),
+        ('femea', 'Fêmea'),
+    ]
+    
     nome = models.CharField(max_length=100, verbose_name='Nome do Pet')
     tipo = models.CharField(max_length=20, choices=TIPO_CHOICES, verbose_name='Tipo')
+    sexo = models.CharField(max_length=10, choices=SEXO_CHOICES, default='macho', verbose_name='Sexo')
     raca = models.CharField(max_length=100, verbose_name='Raça')
     idade = models.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(30)],
