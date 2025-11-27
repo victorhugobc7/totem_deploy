@@ -29,13 +29,18 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-(ja=1ehhnr(pb%$6k@^6b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
+# Build ALLOWED_HOSTS from environment variable + Railway domain
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,cuxrie.xyz').split(',')
+if railway_domain := os.environ.get('RAILWAY_PUBLIC_DOMAIN'):
+    ALLOWED_HOSTS.append(railway_domain)
 
 # CSRF trusted origins for your custom domain
 CSRF_TRUSTED_ORIGINS = [
     'https://cuxrie.xyz',
     'https://www.cuxrie.xyz',
 ]
+if railway_domain := os.environ.get('RAILWAY_PUBLIC_DOMAIN'):
+    CSRF_TRUSTED_ORIGINS.append(f'https://{railway_domain}')
 
 
 # Application definition
