@@ -5,8 +5,10 @@ class Command(BaseCommand):
     help = 'Popula o banco de dados com os 9 gatos do MaryCats'
 
     def handle(self, *args, **options):
-        # Limpar pets existentes (opcional)
-        Pet.objects.all().delete()
+        # Verificar se já existem pets para evitar duplicação
+        if Pet.objects.exists():
+            self.stdout.write(self.style.WARNING('Pets já existem no banco de dados. Use --force para recriar.'))
+            return
         
         pets_data = [
             {
