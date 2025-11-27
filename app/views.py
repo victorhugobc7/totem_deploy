@@ -122,14 +122,8 @@ def pergunta_tripla(request, step=2):
         }
     }
     
-    pergunta = perguntas.get(step)
-    if not pergunta:
-        return redirect('tela_comecar')
-    
-    return render(request, 'pergunta_tripla.html', {
-        'pergunta': pergunta,
-        'step': step
-    })
+        # Porte question disabled: always redirect to resultados
+        return redirect('resultados')
 
 def salvar_preferencia(request):
     """Salva as preferências do usuário na sessão"""
