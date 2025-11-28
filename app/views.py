@@ -213,10 +213,10 @@ def resultados(request):
 def pet_detalhes(request, pet_id):
     """Mostra detalhes de um pet específico"""
     pet = get_object_or_404(Pet, id=pet_id)
-    imagens = pet.imagens.all()
+    imagens = list(pet.imagens.all())  # Convert to list to avoid multiple DB queries
     
     # Check if images have static_image_path set
-    primeira_imagem = imagens.first() if imagens else None
+    primeira_imagem = imagens[0] if imagens else None
     if primeira_imagem and primeira_imagem.static_image_path:
         static_image_path = primeira_imagem.static_image_path
     else:
@@ -225,7 +225,8 @@ def pet_detalhes(request, pet_id):
     return render(request, 'pet_detalhes.html', {
         'pet': pet,
         'imagens': imagens,
-        'static_image_path': static_image_path
+        'static_image_path': static_image_path,
+        'primeira_imagem': primeira_imagem
     })
 
 def cadastrar_pet(request):
