@@ -166,8 +166,8 @@ def resultados(request):
     """Mostra pets compatíveis com as preferências"""
     preferencias = request.session.get('preferencias', {})
     
-    # Buscar pets disponíveis
-    pets_disponiveis = Pet.objects.filter(disponivel=True)
+    # Buscar pets disponíveis com prefetch de imagens
+    pets_disponiveis = Pet.objects.filter(disponivel=True).prefetch_related('imagens')
     
     # Apply strict filters first
     tipo_preferido = preferencias.get('tipo')
@@ -190,7 +190,11 @@ def resultados(request):
     # Build results list
     pets_compatíveis = []
     for pet in pets_disponiveis:
-        if not pet.imagens.exists():
+        # Check if pet has any images
+        primeira_imagem = pet.imagens.first()
+        if primeira_imagem and primeira_imagem.static_image_path:
+            static_image_path = primeira_imagem.static_image_path
+        elif not primeira_imagem:
             static_image_path = f"images/info-pets/Imagens/{pet.nome}.png"
         else:
             static_image_path = None

@@ -24,12 +24,12 @@
                         <div class="card h-100 shadow-lg border-0 rounded-4 bg-white bg-opacity-10 card-hover">
                             <!-- Imagem do Pet -->
                             <div class="card-img-top-container">
-                                {% if pet.imagens.first %}
-                                    <img src="{{ pet.imagens.first.imagem.url }}" 
+                                {% if item.static_image_path %}
+                                    <img src="{% static item.static_image_path %}" 
                                          class="card-img-top w-100 h-100" 
                                          alt="{{ pet.nome }}">
-                                {% elif item.static_image_path %}
-                                    <img src="{% static item.static_image_path %}" 
+                                {% elif pet.imagens.first and pet.imagens.first.imagem %}
+                                    <img src="{{ pet.imagens.first.imagem.url }}" 
                                          class="card-img-top w-100 h-100" 
                                          alt="{{ pet.nome }}">
                                 {% else %}
