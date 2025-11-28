@@ -128,7 +128,22 @@ class Command(BaseCommand):
             pet = Pet.objects.create(**pet_data)
             
             # Criar PetImagem com referência ao arquivo estático
-            static_path = f'images/info-pets/Imagens/{pet.nome}.png'
+            # Usar nome do arquivo conforme está no disco (alguns em lowercase)
+            filename_map = {
+                'Davi': 'davi.png',
+                'Gamora': 'Gamora.png',
+                'Luke': 'Luke.png',
+                'Dora': 'Dora.png',
+                'Buck': 'Buck.png',
+                'Lady': 'Lady.png',
+                'Michelangelo': 'Michelangelo.png',
+                'Verônica': 'Verônica.png',
+                'Mavie': 'Mavie.png'
+            }
+            
+            filename = filename_map.get(pet.nome, f'{pet.nome}.png')
+            static_path = f'images/info-pets/Imagens/{filename}'
+            
             PetImagem.objects.create(
                 pet=pet,
                 static_image_path=static_path,
