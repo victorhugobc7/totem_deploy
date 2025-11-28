@@ -84,8 +84,8 @@ def footer(request):
 
 def tela_comecar(request):
     """Tela inicial com botão para começar o fluxo"""
-    # Get available pets for carousel - temporarily without prefetch until migration runs
-    pets = Pet.objects.filter(disponivel=True)[:6]  # Limit to 6 pets for carousel
+    # Get available pets for carousel with their images
+    pets = Pet.objects.filter(disponivel=True).prefetch_related('imagens')[:6]  # Limit to 6 pets for carousel
     
     return render(request, 'comecar.html', {
         'pets': pets
