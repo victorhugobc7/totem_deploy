@@ -52,12 +52,14 @@ class Pet(models.Model):
 
 class PetImagem(models.Model):
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE, related_name='imagens')
-    imagem = models.ImageField(upload_to='pets/', verbose_name='Imagem')
+    imagem = models.ImageField(upload_to='pets/', verbose_name='Imagem', blank=True, null=True)
+    static_image_path = models.CharField(max_length=255, blank=True, null=True, verbose_name='Caminho da Imagem Estática')
+    ordem = models.IntegerField(default=1, verbose_name='Ordem')
     principal = models.BooleanField(default=False, verbose_name='Imagem Principal')
     uploaded_at = models.DateTimeField(auto_now_add=True)
     
     class Meta:
-        ordering = ['-principal', 'uploaded_at']
+        ordering = ['ordem', '-principal', 'uploaded_at']
         verbose_name = 'Imagem do Pet'
         verbose_name_plural = 'Imagens do Pet'
     
