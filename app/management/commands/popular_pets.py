@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from app.models import Pet
+from app.models import Pet, PetImagem
 
 class Command(BaseCommand):
     help = 'Popula o banco de dados com os 9 gatos do MaryCats'
@@ -126,6 +126,15 @@ class Command(BaseCommand):
         
         for pet_data in pets_data:
             pet = Pet.objects.create(**pet_data)
-            self.stdout.write(self.style.SUCCESS(f'✓ Pet criado: {pet.nome}'))
+            
+            # Criar PetImagem com referência ao arquivo estático
+            static_path = f'images/info-pets/Imagens/{pet.nome}.png'
+            PetImagem.objects.create(
+                pet=pet,
+                static_image_path=static_path,
+                ordem=1
+            )
+            
+            self.stdout.write(self.style.SUCCESS(f'✓ Pet criado: {pet.nome} (com imagem estática)'))
         
         self.stdout.write(self.style.SUCCESS(f'\n{len(pets_data)} pets cadastrados com sucesso!'))
