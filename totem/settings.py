@@ -31,8 +31,13 @@ DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 # Build ALLOWED_HOSTS from environment variable + Railway domain
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,cuxrie.xyz').split(',')
+# Add Railway domains
 if railway_domain := os.environ.get('RAILWAY_PUBLIC_DOMAIN'):
     ALLOWED_HOSTS.append(railway_domain)
+if railway_static := os.environ.get('RAILWAY_STATIC_URL'):
+    ALLOWED_HOSTS.append(railway_static.replace('https://', '').replace('http://', ''))
+# Add Railway wildcard domain
+ALLOWED_HOSTS.append('.railway.app')
 
 # CSRF trusted origins for your custom domain
 CSRF_TRUSTED_ORIGINS = [
