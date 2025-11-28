@@ -20,8 +20,10 @@
         <div class="carousel-item {% if forloop.first %}active{% endif %}">
             <a href="{% url 'pet_detalhes' pet_id=pet.id %}" class="carousel-pet-link">
                 <div class="position-relative carousel-image-container">
-                    {% if pet.imagens.first %}
+                    {% if pet.imagens.first.imagem %}
                     <img src="{{ pet.imagens.first.imagem.url }}" class="d-block w-100 carousel-image" alt="{{ pet.nome }}">
+                    {% elif pet.imagens.first.static_image_path %}
+                    <img src="{% static pet.imagens.first.static_image_path %}" class="d-block w-100 carousel-image" alt="{{ pet.nome }}">
                     {% else %}
                     <div class="d-block w-100 carousel-image bg-secondary d-flex align-items-center justify-content-center" style="height: 400px;">
                         <i class="fas fa-cat fa-5x text-white-50"></i>
