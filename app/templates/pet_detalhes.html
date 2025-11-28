@@ -8,15 +8,15 @@
     <!-- Imagem Principal no Topo -->
     <div class="row g-0">
         <div class="col-12">
-            {% if imagens.first %}
-                <img src="{{ imagens.first.imagem.url }}" 
-                     class="w-100" 
-                     style="height: 40vh; object-fit: cover;"
-                     alt="{{ pet.nome }}">
-            {% elif static_image_path %}
+            {% if static_image_path %}
                 <img src="{% static static_image_path %}" 
                      class="w-100"
                      style="height: 50vh; object-fit: cover;"
+                     alt="{{ pet.nome }}">
+            {% elif imagens.first and imagens.first.imagem %}
+                <img src="{{ imagens.first.imagem.url }}" 
+                     class="w-100" 
+                     style="height: 40vh; object-fit: cover;"
                      alt="{{ pet.nome }}">
             {% else %}
                 <div class="d-flex align-items-center justify-content-center bg-secondary" style="height: 50vh;">

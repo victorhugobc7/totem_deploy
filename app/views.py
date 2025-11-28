@@ -215,10 +215,10 @@ def pet_detalhes(request, pet_id):
     pet = get_object_or_404(Pet, id=pet_id)
     imagens = pet.imagens.all()
     
-    # Check if pet has images in database, if not, try to find in static folder
-    if not imagens:
-        # Try to find image in static folder based on pet name
-        static_image_path = f"images/info-pets/Imagens/{pet.nome}.png"
+    # Check if images have static_image_path set
+    primeira_imagem = imagens.first() if imagens else None
+    if primeira_imagem and primeira_imagem.static_image_path:
+        static_image_path = primeira_imagem.static_image_path
     else:
         static_image_path = None
     
