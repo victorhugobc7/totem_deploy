@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Pets Recomendados - Totem de Adoção{% endblock %}
+{% block title %}Bichinhos Recomendados - Totem de Adoção{% endblock %}
 
 {% block content %}
 <div class="container-fluid bg-dark-pink h-100 py-5">
@@ -9,8 +9,8 @@
         <!-- Header -->
         <div class="row mb-5">
             <div class="col-12 text-end">
-                <h1 class="display-4 fw-bold text-white mb-3">Pets Recomendados para Você!</h1>
-                <p class="lead text-white-50">Encontramos {{ pets_compatíveis|length }} pet(s) compatível(is) com suas preferências</p>
+                <h1 class="display-4 fw-bold text-white mb-3">Bichinhos Recomendados para Você!</h1>
+                <p class="lead text-white-50">Encontramos {{ pets_compatíveis|length }} bichinho(s) compatível(is) com suas preferências</p>
             </div>
         </div>
     
@@ -48,14 +48,18 @@
                                     <small>{{ pet.raca }} • {{ pet.get_porte_display }}</small>
                                 </p>
                                 <p class="card-text text-white mb-3">
+                                    {% if pet.idade %}
                                     <i class="fas fa-calendar-alt me-1 text-marycats-yellow"></i>
                                     {{ pet.idade }} ano{{ pet.idade|pluralize }}
+                                    {% endif %}
                                 </p>
                                 <!-- Personalidade -->
+                                {% if pet.personalidade %}
                                 <div class="mb-3">
                                     <small class="text-white-50 d-block mb-1">Personalidade:</small>
                                     <p class="small text-white">{{ pet.personalidade|truncatewords:15 }}</p>
                                 </div>
+                                {% endif %}
                                 <!-- Botão -->
                                 <div class="mt-auto">
                                     <span class="btn bg-marycats-yellow text-marycats-dark-pink w-100 rounded-pill fw-bold border-0">
@@ -85,8 +89,8 @@
                 <div class="card border-0 shadow-lg rounded-4 bg-white bg-opacity-10 w-100">
                     <div class="card-body p-5">
                         <div class="display-1 text-white-50 mb-4">😔</div>
-                        <h3 class="text-marycats-yellow mb-3">Nenhum pet encontrado</h3>
-                        <p class="text-white-50 mb-4">Infelizmente não temos pets disponíveis que correspondam às suas preferências no momento.</p>
+                        <h3 class="text-marycats-yellow mb-3">Nenhum bichinho encontrado</h3>
+                        <p class="text-white-50 mb-4">Infelizmente não temos bichinhos disponíveis que correspondam às suas preferências no momento.</p>
                         <a href="{% url 'tela_comecar' %}" class="btn bg-marycats-yellow text-marycats-dark-pink btn-lg rounded-pill px-5 fw-bold border-0">
                             <i class="fas fa-redo me-2"></i>Refazer Busca
                         </a>

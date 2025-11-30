@@ -54,9 +54,10 @@
         </div>
         
         <div class="row">
-            <!-- Informações do Pet -->
+            <!-- Informações do Bichinho -->
             <div class="col-lg-6">
                 <!-- Card Único com Flex Layout -->
+                {% if pet.idade %}
                 <div class="card border-0 shadow-lg rounded-4 mb-4 bg-white bg-opacity-10">
                     <div class="card-body">
                         <div class="d-flex flex-wrap gap-4 justify-content-center">
@@ -69,8 +70,10 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
                 
                 <!-- Personalidade -->
+                {% if pet.personalidade %}
                 <div class="card border-0 shadow-lg rounded-4 mb-4 bg-white bg-opacity-10">
                     <div class="card-body">
                         <h4 class="card-title text-marycats-yellow mb-3">
@@ -79,6 +82,7 @@
                         <p class="card-text text-white fs-5">{{ pet.personalidade }}</p>
                     </div>
                 </div>
+                {% endif %}
                 
                 <!-- Descrição -->
                 {% if pet.descricao %}
@@ -130,7 +134,7 @@
                     <strong>Informações importantes:</strong>
                     <ul class="mb-0 mt-2">
                         <li>Documentação necessária (RG, CPF, Comprovante de residência)</li>
-                        <li>Visita prévia para conhecer o pet</li>
+                        <li>Visita prévia para conhecer o bichinho</li>
                         <li>Termo de adoção a ser assinado</li>
                     </ul>
                 </div>

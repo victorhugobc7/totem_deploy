@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Core Admin - Cadastrar Pet{% endblock %}
+{% block title %}Core Admin - Cadastrar Bichinho{% endblock %}
 
 {% block content %}
 <div class="container-fluid h-100 bg-dark-pink py-4">
@@ -12,7 +12,7 @@
                 <div class="d-flex justify-content-end">
                     <div class="text-end">
                         <a href="{% url 'core_dashboard' %}" class="text-decoration-none">
-                            <h1 class="h3 fw-bold text-white mb-2">Cadastrar Pet</h1>
+                            <h1 class="h3 fw-bold text-white mb-2">Cadastrar Bichinho</h1>
                             <div class="btn btn-outline-marycats-yellow bg-marycats-dark-pink text-marycats-yellow rounded-pill">
                                 <i class="fas fa-arrow-left me-2"></i>Voltar
                             </div>
@@ -40,12 +40,12 @@
                         
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="nome" class="form-label fw-bold text-white">Nome do Pet *</label>
+                                <label for="nome" class="form-label fw-bold text-white">Nome do Bichinho *</label>
                                 <input type="text" class="form-control rounded-pill" id="nome" name="nome" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="tipo" class="form-label fw-bold text-white">Tipo *</label>
-                                <select class="form-select rounded-pill" id="tipo" name="tipo" required>
+                                <select class="form-select rounded-pill" id="tipo" name="tipo" required onchange="updatePorteOptions()">
                                     <option value="">Selecione o tipo</option>
                                     <option value="cachorro">Cachorro</option>
                                     <option value="gato">Gato</option>
@@ -55,44 +55,54 @@
                         
                         <div class="row">
                             <div class="col-md-6 mb-3">
+                                <label for="sexo" class="form-label fw-bold text-white">Sexo *</label>
+                                <select class="form-select rounded-pill" id="sexo" name="sexo" required>
+                                    <option value="">Selecione o sexo</option>
+                                    <option value="macho">Macho</option>
+                                    <option value="femea">Fêmea</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
                                 <label for="raca" class="form-label fw-bold text-white">Raça *</label>
                                 <input type="text" class="form-control rounded-pill" id="raca" name="raca" required>
                             </div>
+                        </div>
+                        
+                        <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="idade" class="form-label fw-bold text-white">Idade (anos) *</label>
-                                <input type="number" class="form-control rounded-pill" id="idade" name="idade" min="0" max="30" required>
+                                <label for="idade" class="form-label fw-bold text-white">Idade (anos)</label>
+                                <input type="number" class="form-control rounded-pill" id="idade" name="idade" min="0" max="30" placeholder="Opcional">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="porte" class="form-label fw-bold text-white">Porte *</label>
+                                <select class="form-select rounded-pill" id="porte" name="porte" required>
+                                    <option value="">Selecione o porte</option>
+                                    <option value="pequeno">Pequeno</option>
+                                    <option value="medio">Médio</option>
+                                    <option value="grande" class="porte-grande">Grande</option>
+                                </select>
                             </div>
                         </div>
                         
                         <div class="mb-3">
-                            <label for="porte" class="form-label fw-bold text-white">Porte *</label>
-                            <select class="form-select rounded-pill" id="porte" name="porte" required>
-                                <option value="">Selecione o porte</option>
-                                <option value="pequeno">Pequeno</option>
-                                <option value="medio">Médio</option>
-                                <option value="grande">Grande</option>
-                            </select>
+                            <label for="personalidade" class="form-label fw-bold text-white">Personalidade</label>
+                            <textarea class="form-control rounded-3" id="personalidade" name="personalidade" rows="3" placeholder="Descreva a personalidade do bichinho..."></textarea>
                         </div>
-                        
-                        <div class="mb-3">
-                            <label for="personalidade" class="form-label fw-bold text-white">Personalidade *</label>
-                            <textarea class="form-control rounded-3" id="personalidade" name="personalidade" rows="3" required placeholder="Descreva a personalidade do pet..."></textarea>
-                        </div>
-                        
+
                         <div class="mb-3">
                             <label for="descricao" class="form-label fw-bold text-white">Descrição</label>
-                            <textarea class="form-control rounded-3" id="descricao" name="descricao" rows="4" placeholder="Informações adicionais sobre o pet..."></textarea>
+                            <textarea class="form-control rounded-3" id="descricao" name="descricao" rows="4" placeholder="Informações adicionais sobre o bichinho..."></textarea>
                         </div>
-                        
+
                         <div class="mb-4">
-                            <label for="imagem" class="form-label fw-bold text-white">Imagem do Pet</label>
+                            <label for="imagem" class="form-label fw-bold text-white">Imagem do Bichinho</label>
                             <input type="file" class="form-control rounded-pill" id="imagem" name="imagem" accept="image/*">
                             <div class="form-text text-white-50">Formatos aceitos: JPG, PNG, GIF</div>
                         </div>
                         
                         <div class="d-grid">
                             <button type="submit" class="btn bg-marycats-yellow text-marycats-dark-pink btn-lg rounded-pill fw-bold border-0">
-                                <i class="fas fa-save me-2"></i>Cadastrar Pet
+                                <i class="fas fa-save me-2"></i>Cadastrar Bichinho
                             </button>
                         </div>
                     </form>
@@ -101,4 +111,21 @@
         </div>
     </div>
 </div>
+
+<script>
+function updatePorteOptions() {
+    const tipo = document.getElementById('tipo').value;
+    const porteGrande = document.querySelector('.porte-grande');
+    
+    if (tipo === 'gato') {
+        porteGrande.style.display = 'none';
+        // If grande was selected, change to empty
+        if (document.getElementById('porte').value === 'grande') {
+            document.getElementById('porte').value = '';
+        }
+    } else {
+        porteGrande.style.display = '';
+    }
+}
+</script>
 {% endblock %}

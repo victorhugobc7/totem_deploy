@@ -230,16 +230,24 @@ def pet_detalhes(request, pet_id):
     })
 
 def cadastrar_pet(request):
-    """Formulário para cadastrar novo pet"""
+    """Formulário para cadastrar novo bichinho"""
     if request.method == 'POST':
         try:
+            # Handle optional idade field
+            idade_str = request.POST.get('idade', '').strip()
+            idade = int(idade_str) if idade_str else None
+            
+            # Handle optional personalidade field
+            personalidade = request.POST.get('personalidade', '').strip() or None
+            
             pet = Pet.objects.create(
                 nome=request.POST.get('nome'),
                 tipo=request.POST.get('tipo'),
+                sexo=request.POST.get('sexo', 'macho'),
                 raca=request.POST.get('raca'),
-                idade=int(request.POST.get('idade')),
+                idade=idade,
                 porte=request.POST.get('porte'),
-                personalidade=request.POST.get('personalidade'),
+                personalidade=personalidade,
                 descricao=request.POST.get('descricao', ''),
                 disponivel=True
             )
@@ -252,11 +260,11 @@ def cadastrar_pet(request):
                     principal=True
                 )
             
-            messages.success(request, 'Pet cadastrado com sucesso!')
+            messages.success(request, 'Bichinho cadastrado com sucesso!')
             return redirect('pet_detalhes', pet_id=pet.id)
             
         except Exception as e:
-            messages.error(request, f'Erro ao cadastrar pet: {str(e)}')
+            messages.error(request, f'Erro ao cadastrar bichinho: {str(e)}')
     
     return render(request, 'cadastrar_pet.html', {})
 
@@ -312,16 +320,24 @@ def core_dashboard(request):
 
 @core_auth_required
 def core_cadastrar_pet(request):
-    """Formulário para cadastrar novo pet com autenticação"""
+    """Formulário para cadastrar novo bichinho com autenticação"""
     if request.method == 'POST':
         try:
+            # Handle optional idade field
+            idade_str = request.POST.get('idade', '').strip()
+            idade = int(idade_str) if idade_str else None
+            
+            # Handle optional personalidade field
+            personalidade = request.POST.get('personalidade', '').strip() or None
+            
             pet = Pet.objects.create(
                 nome=request.POST.get('nome'),
                 tipo=request.POST.get('tipo'),
+                sexo=request.POST.get('sexo', 'macho'),
                 raca=request.POST.get('raca'),
-                idade=int(request.POST.get('idade')),
+                idade=idade,
                 porte=request.POST.get('porte'),
-                personalidade=request.POST.get('personalidade'),
+                personalidade=personalidade,
                 descricao=request.POST.get('descricao', ''),
                 disponivel=True
             )
@@ -334,11 +350,11 @@ def core_cadastrar_pet(request):
                     principal=True
                 )
             
-            messages.success(request, 'Pet cadastrado com sucesso!')
+            messages.success(request, 'Bichinho cadastrado com sucesso!')
             return redirect('core_dashboard')
             
         except Exception as e:
-            messages.error(request, f'Erro ao cadastrar pet: {str(e)}')
+            messages.error(request, f'Erro ao cadastrar bichinho: {str(e)}')
     
     return render(request, 'core/cadastrar_pet.html', {})
 
@@ -364,17 +380,25 @@ def painel_pets(request):
     })
 
 def editar_pet(request, pet_id):
-    """Edit existing pet"""
+    """Edit existing bichinho"""
     pet = get_object_or_404(Pet, id=pet_id)
     
     if request.method == 'POST':
         try:
+            # Handle optional idade field
+            idade_str = request.POST.get('idade', '').strip()
+            idade = int(idade_str) if idade_str else None
+            
+            # Handle optional personalidade field
+            personalidade = request.POST.get('personalidade', '').strip() or None
+            
             pet.nome = request.POST.get('nome')
             pet.tipo = request.POST.get('tipo')
+            pet.sexo = request.POST.get('sexo', pet.sexo)
             pet.raca = request.POST.get('raca')
-            pet.idade = int(request.POST.get('idade'))
+            pet.idade = idade
             pet.porte = request.POST.get('porte')
-            pet.personalidade = request.POST.get('personalidade')
+            pet.personalidade = personalidade
             pet.descricao = request.POST.get('descricao', '')
             pet.save()
             
@@ -385,21 +409,22 @@ def editar_pet(request, pet_id):
                     principal=False
                 )
             
-            messages.success(request, 'Pet atualizado com sucesso!')
+            messages.success(request, 'Bichinho atualizado com sucesso!')
             return redirect('painel_pets')
         except Exception as e:
-            messages.error(request, f'Erro ao atualizar pet: {str(e)}')
+            messages.error(request, f'Erro ao atualizar bichinho: {str(e)}')
     
     return render(request, 'editar_pet.html', {
         'pet': pet
     })
 
 def excluir_pet(request, pet_id):
-    """Delete a pet"""
+    """Delete a bichinho"""
     pet = get_object_or_404(Pet, id=pet_id)
     if request.method == 'POST':
+        nome = pet.nome
         pet.delete()
-        messages.success(request, f'Pet {pet.nome} excluído com sucesso!')
+        messages.success(request, f'Bichinho {nome} excluído com sucesso!')
     return redirect('painel_pets')
 
 @csrf_exempt
