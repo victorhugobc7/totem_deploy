@@ -410,6 +410,7 @@ def painel_pets(request):
 def editar_pet(request, pet_id):
     """Edit existing bichinho"""
     pet = get_object_or_404(Pet, id=pet_id)
+    is_authenticated = request.session.get('authenticated', False)
     
     if request.method == 'POST':
         try:
@@ -440,12 +441,16 @@ def editar_pet(request, pet_id):
                 )
             
             messages.success(request, 'Bichinho atualizado com sucesso!')
+            # Redirect to core list if authenticated, otherwise to painel_pets
+            if is_authenticated:
+                return redirect('core_lista_pets')
             return redirect('painel_pets')
         except Exception as e:
             messages.error(request, f'Erro ao atualizar bichinho: {str(e)}')
     
     return render(request, 'editar_pet.html', {
-        'pet': pet
+        'pet': pet,
+        'is_authenticated': is_authenticated
     })
 
 def excluir_pet(request, pet_id):

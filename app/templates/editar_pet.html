@@ -78,7 +78,11 @@
                         </div>
                         <div class="d-grid gap-3">
                             <button class="btn btn-primary btn-lg rounded-pill fw-bold" type="submit"><i class="fas fa-save me-2"></i>Salvar alterações</button>
+                            {% if is_authenticated %}
+                            <a href="{% url 'core_lista_pets' %}" class="btn btn-outline-secondary btn-lg rounded-pill"><i class="fas fa-arrow-left me-2"></i>Voltar à Lista</a>
+                            {% else %}
                             <a href="{% url 'painel_pets' %}" class="btn btn-outline-secondary btn-lg rounded-pill"><i class="fas fa-arrow-left me-2"></i>Voltar ao Painel</a>
+                            {% endif %}
                         </div>
                     </form>
                 </div>
