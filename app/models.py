@@ -35,14 +35,14 @@ class Pet(models.Model):
     nome = models.CharField(max_length=100, verbose_name='Nome do Bichinho')
     tipo = models.CharField(max_length=20, choices=TIPO_CHOICES, verbose_name='Tipo')
     sexo = models.CharField(max_length=10, choices=SEXO_CHOICES, default='macho', verbose_name='Sexo')
-    raca = models.CharField(max_length=100, verbose_name='Raça')
+    raca = models.CharField(max_length=100, verbose_name='Raça', blank=True, null=True)
     idade = models.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(30)],
         verbose_name='Idade (anos)',
         blank=True,
         null=True
     )
-    porte = models.CharField(max_length=20, choices=PORTE_CHOICES, verbose_name='Porte')
+    porte = models.CharField(max_length=20, choices=PORTE_CHOICES, verbose_name='Porte', blank=True, null=True)
     personalidade = models.TextField(verbose_name='Personalidade', blank=True, null=True)
     descricao = models.TextField(blank=True, verbose_name='Descrição')
     disponivel = models.BooleanField(default=True, verbose_name='Disponível para Adoção')

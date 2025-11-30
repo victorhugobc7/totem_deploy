@@ -24,5 +24,6 @@ urlpatterns = [
     path('core/logout/', views.core_logout, name='core_logout'),
     path('core/dashboard/', views.core_dashboard, name='core_dashboard'),
     path('core/cadastrar-pet/', views.core_cadastrar_pet, name='core_cadastrar_pet'),
-        path('pets/<int:pet_id>/alternar-disponibilidade/', views.alternar_disponibilidade_pet, name='alternar_disponibilidade_pet'),
+    path('core/bichinhos/', views.core_lista_pets, name='core_lista_pets'),
+    path('pets/<int:pet_id>/alternar-disponibilidade/', views.alternar_disponibilidade_pet, name='alternar_disponibilidade_pet'),
 ]

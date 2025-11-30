@@ -113,8 +113,8 @@ def pergunta_dupla(request, step=1):
         3: {
             'titulo': 'Qual faixa etária você prefere?',
             'opcoes': [
-                {'valor': 'filhote', 'texto': 'Filhote (0-2 anos)', 'icone': 'fas fa-dog fa-5x'},
-                {'valor': 'adulto', 'texto': 'Adulto (3-7 anos)', 'icone': 'fas fa-paw fa-5x'}
+                {'valor': 'filhote', 'texto': 'Filhote', 'icone': 'fas fa-dog fa-5x'},
+                {'valor': 'adulto', 'texto': 'Adulto', 'icone': 'fas fa-paw fa-5x'}
             ],
             'proxima': '/resultados/'
         }
@@ -222,31 +222,36 @@ def pet_detalhes(request, pet_id):
     else:
         static_image_path = None
     
+    # Check if user is authenticated in core
+    is_authenticated = request.session.get('authenticated', False)
+    
     return render(request, 'pet_detalhes.html', {
         'pet': pet,
         'imagens': imagens,
         'static_image_path': static_image_path,
-        'primeira_imagem': primeira_imagem
+        'primeira_imagem': primeira_imagem,
+        'is_authenticated': is_authenticated
     })
 
 def cadastrar_pet(request):
     """Formulário para cadastrar novo bichinho"""
     if request.method == 'POST':
         try:
-            # Handle optional idade field
+            # Handle optional fields
             idade_str = request.POST.get('idade', '').strip()
             idade = int(idade_str) if idade_str else None
             
-            # Handle optional personalidade field
             personalidade = request.POST.get('personalidade', '').strip() or None
+            raca = request.POST.get('raca', '').strip() or None
+            porte = request.POST.get('porte', '').strip() or None
             
             pet = Pet.objects.create(
                 nome=request.POST.get('nome'),
                 tipo=request.POST.get('tipo'),
                 sexo=request.POST.get('sexo', 'macho'),
-                raca=request.POST.get('raca'),
+                raca=raca,
                 idade=idade,
-                porte=request.POST.get('porte'),
+                porte=porte,
                 personalidade=personalidade,
                 descricao=request.POST.get('descricao', ''),
                 disponivel=True
@@ -319,24 +324,47 @@ def core_dashboard(request):
     return render(request, 'core/dashboard.html', context)
 
 @core_auth_required
+def core_lista_pets(request):
+    """Lista de bichinhos para o admin core"""
+    q = request.GET.get('q', '').strip()
+    filtro_disponivel = request.GET.get('disponivel')
+    
+    pets = Pet.objects.all().prefetch_related('imagens')
+    
+    if q:
+        pets = pets.filter(nome__icontains=q)
+    
+    if filtro_disponivel in ['true', 'false']:
+        pets = pets.filter(disponivel=(filtro_disponivel == 'true'))
+    
+    pets = pets.order_by('nome')
+    
+    return render(request, 'core/lista_pets.html', {
+        'pets': pets,
+        'q': q,
+        'filtro_disponivel': filtro_disponivel
+    })
+
+@core_auth_required
 def core_cadastrar_pet(request):
     """Formulário para cadastrar novo bichinho com autenticação"""
     if request.method == 'POST':
         try:
-            # Handle optional idade field
+            # Handle optional fields
             idade_str = request.POST.get('idade', '').strip()
             idade = int(idade_str) if idade_str else None
             
-            # Handle optional personalidade field
             personalidade = request.POST.get('personalidade', '').strip() or None
+            raca = request.POST.get('raca', '').strip() or None
+            porte = request.POST.get('porte', '').strip() or None
             
             pet = Pet.objects.create(
                 nome=request.POST.get('nome'),
                 tipo=request.POST.get('tipo'),
                 sexo=request.POST.get('sexo', 'macho'),
-                raca=request.POST.get('raca'),
+                raca=raca,
                 idade=idade,
-                porte=request.POST.get('porte'),
+                porte=porte,
                 personalidade=personalidade,
                 descricao=request.POST.get('descricao', ''),
                 disponivel=True
@@ -389,15 +417,17 @@ def editar_pet(request, pet_id):
             idade_str = request.POST.get('idade', '').strip()
             idade = int(idade_str) if idade_str else None
             
-            # Handle optional personalidade field
+            # Handle optional fields
             personalidade = request.POST.get('personalidade', '').strip() or None
+            raca = request.POST.get('raca', '').strip() or None
+            porte = request.POST.get('porte', '').strip() or None
             
             pet.nome = request.POST.get('nome')
             pet.tipo = request.POST.get('tipo')
             pet.sexo = request.POST.get('sexo', pet.sexo)
-            pet.raca = request.POST.get('raca')
+            pet.raca = raca
             pet.idade = idade
-            pet.porte = request.POST.get('porte')
+            pet.porte = porte
             pet.personalidade = personalidade
             pet.descricao = request.POST.get('descricao', '')
             pet.save()

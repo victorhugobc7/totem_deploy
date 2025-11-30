@@ -49,8 +49,18 @@
         <div class="mb-4 text-center">
             <h1 class="display-4 fw-bold text-marycats-yellow mb-2">{{ pet.nome }}</h1>
             <p class="lead text-white-50 mb-0">
-                <i class="fas fa-tag me-2 text-marycats-yellow"></i>{{ pet.raca }} • {{ pet.get_tipo_display }}
+                <i class="fas fa-tag me-2 text-marycats-yellow"></i>
+                {% if pet.raca %}{{ pet.raca }} • {% endif %}{{ pet.get_tipo_display }} • {{ pet.get_sexo_display }}
             </p>
+            
+            <!-- Admin Edit Button -->
+            {% if is_authenticated %}
+            <div class="mt-3">
+                <a href="{% url 'editar_pet' pet.id %}" class="btn bg-marycats-yellow text-marycats-dark-pink rounded-pill fw-bold">
+                    <i class="fas fa-edit me-2"></i>Editar Bichinho
+                </a>
+            </div>
+            {% endif %}
         </div>
         
         <div class="row">
