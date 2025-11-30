@@ -1,9 +1,11 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg fixed-top {% if 'pergunta' in request.resolver_match.url_name %}navbar-other-pages{% else %}navbar-home{% endif %}">
     <div class="container-fluid px-4">
+        {% if not hide_nav_logo %}
         <a class="navbar-brand fw-bold" href="{% url 'tela_comecar' %}">
             <img src="{% static 'images/MaryCats_Branco.png' %}" alt="Logo" class="me-2 logo">
         </a>
+        {% endif %}
         
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>

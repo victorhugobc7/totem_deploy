@@ -15,10 +15,10 @@
                         <p class="text-white-50">Gerencie todos os bichinhos cadastrados</p>
                     </div>
                     <div>
-                        <a href="{% url 'core_dashboard' %}" class="btn btn-outline-light rounded-pill me-2">
+                        <a href="{% url 'core_dashboard' %}" class="btn-outline-light rounded-pill me-2">
                             <i class="fas fa-arrow-left me-2"></i>Voltar
                         </a>
-                        <a href="{% url 'core_cadastrar_pet' %}" class="btn bg-marycats-yellow text-marycats-dark-pink rounded-pill fw-bold">
+                        <a href="{% url 'core_cadastrar_pet' %}" class="bg-marycats-yellow text-marycats-dark-pink rounded-pill fw-bold">
                             <i class="fas fa-plus me-2"></i>Novo Bichinho
                         </a>
                     </div>
@@ -50,7 +50,7 @@
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <button type="submit" class="btn bg-marycats-yellow text-marycats-dark-pink w-100 rounded-pill fw-bold">
+                        <button type="submit" class="bg-marycats-yellow text-marycats-dark-pink w-100 rounded-pill fw-bold">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
@@ -98,15 +98,15 @@
                         
                         <!-- Ações -->
                         <div class="d-flex gap-2 align-items-center">
-                            <a href="{% url 'pet_detalhes' pet.id %}" class="btn btn-sm btn-outline-light rounded-pill flex-grow-1" style="height: 38px; display: flex; align-items: center; justify-content: center;">
+                            <a href="{% url 'pet_detalhes' pet.id %}" class="btn-sm btn-outline-light rounded-pill flex-grow-1" style="height: 38px; display: flex; align-items: center; justify-content: center;">
                                 <i class="fas fa-eye me-1"></i>Ver
                             </a>
-                            <a href="{% url 'editar_pet' pet.id %}" class="btn btn-sm bg-marycats-yellow text-marycats-dark-pink rounded-pill flex-grow-1" style="height: 38px; display: flex; align-items: center; justify-content: center;">
+                            <a href="{% url 'editar_pet' pet.id %}" class="btn-sm bg-marycats-yellow text-marycats-dark-pink rounded-pill flex-grow-1" style="height: 38px; display: flex; align-items: center; justify-content: center;">
                                 <i class="fas fa-edit me-1"></i>Editar
                             </a>
                             <form method="post" action="{% url 'excluir_pet' pet.id %}" class="d-inline" onsubmit="return confirm('Tem certeza que deseja excluir {{ pet.nome }}?');">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill" style="height: 38px; width: 38px; display: flex; align-items: center; justify-content: center;">
+                                <button type="submit" class="btn-sm btn-outline-danger rounded-pill" style="height: 38px; width: 38px; display: flex; align-items: center; justify-content: center;">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </form>
@@ -121,7 +121,7 @@
                         <i class="fas fa-paw fa-4x text-white-50 mb-3"></i>
                         <h5 class="text-marycats-yellow">Nenhum bichinho encontrado</h5>
                         <p class="text-white-50">Cadastre o primeiro bichinho!</p>
-                        <a href="{% url 'core_cadastrar_pet' %}" class="btn bg-marycats-yellow text-marycats-dark-pink rounded-pill fw-bold">
+                        <a href="{% url 'core_cadastrar_pet' %}" class="bg-marycats-yellow text-marycats-dark-pink rounded-pill fw-bold">
                             <i class="fas fa-plus me-2"></i>Cadastrar Bichinho
                         </a>
                     </div>

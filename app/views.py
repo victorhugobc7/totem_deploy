@@ -342,7 +342,8 @@ def core_lista_pets(request):
     return render(request, 'core/lista_pets.html', {
         'pets': pets,
         'q': q,
-        'filtro_disponivel': filtro_disponivel
+        'filtro_disponivel': filtro_disponivel,
+        'hide_nav_logo': True
     })
 
 @core_auth_required
