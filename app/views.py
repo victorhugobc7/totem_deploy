@@ -95,7 +95,7 @@ def pergunta_dupla(request, step=1):
     """Perguntas com duas opções"""
     perguntas = {
         1: {
-            'titulo': 'Qual tipo de pet você está procurando?',
+            'titulo': 'Qual tipo de bichinho você está procurando?',
             'opcoes': [
                 {'valor': 'cachorro', 'texto': 'Cachorro', 'icone': 'fas fa-dog fa-5x'},
                 {'valor': 'gato', 'texto': 'Gato', 'icone': 'fas fa-cat fa-5x'}
