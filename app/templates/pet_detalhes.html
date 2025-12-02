@@ -3,181 +3,192 @@
 
 {% block title %}{{ pet.nome }} - Detalhes - Totem de Adoção{% endblock %}
 
+{% block extra_css %}
+<style>
+    .pet-details-container {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .pet-info-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 2rem;
+        padding: 0 3rem;
+    }
+    
+    .pet-image-container {
+        flex: 0 0 auto;
+        width: 45%;
+    }
+    
+    .pet-image-container img {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        border-radius: 0;
+    }
+    
+    .pet-info-text {
+        flex: 1;
+        text-align: left;
+    }
+    
+    .pet-name-title {
+        font-family: var(--font-heading);
+        font-size: 4rem;
+        font-weight: 900;
+        color: var(--marycats-dark-pink);
+        background-color: var(--marycats-yellow);
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+        display: inline-block;
+        padding: 0.5rem 1.5rem;
+        white-space: nowrap;
+    }
+    
+    .pet-name-title.name-medium {
+        font-size: 3rem;
+    }
+    
+    .pet-name-title.name-long {
+        font-size: 2.5rem;
+    }
+    
+    .pet-name-title.name-very-long {
+        font-size: 2rem;
+    }
+    
+    .pet-description {
+        font-family: var(--font-body);
+        font-size: 2.4rem;
+        color: var(--marycats-yellow);
+        line-height: 1.4;
+        font-weight: 900;
+    }
+    
+    .qr-section {
+        text-align: center;
+        padding: 2rem 3rem;
+    }
+    
+    .qr-instruction {
+        font-family: var(--font-heading);
+        font-size: 2.5rem;
+        color: var(--marycats-dark-pink);
+        background-color: var(--marycats-yellow);
+        font-weight: 900;
+        margin-bottom: 2rem;
+        display: inline-block;
+        padding: 1rem 2rem;
+        -webkit-text-stroke: 0.5px currentColor;
+    }
+    
+    .qr-code-box {
+        background-color: white;
+        display: inline-block;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        border: 6px solid var(--marycats-yellow);
+    }
+    
+    .qr-code-box img {
+        max-width: 280px;
+        height: auto;
+    }
+    
+    .qr-footer-message {
+        font-family: var(--font-heading);
+        font-size: 2rem;
+        color: var(--marycats-dark-pink);
+        background-color: var(--marycats-yellow);
+        font-weight: 900;
+        display: inline-block;
+        padding: 1rem 2rem;
+        margin-top: 1rem;
+        -webkit-text-stroke: 0.5px currentColor;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container-fluid bg-dark-pink h-100 p-0">
-    <!-- Imagem Principal no Topo -->
-    <div class="row g-0">
-        <div class="col-12">
+<div class="pet-details-container h-100 bg-marycats-dark-pink">
+    <!-- Logo at top -->
+    <div class="text-center pt-4 pb-3">
+        <img src="{% static 'images/MaryCats_Branco.png' %}" alt="Mary Cats Logo" style="max-width: 200px; height: auto;">
+    </div>
+    
+    <!-- Título com fundo amarelo -->
+    <div class="text-center mb-4 w-100 px-3">
+        <h2 class="d-inline-block px-5 py-3 bg-marycats-yellow text-marycats-dark-pink" style="font-family: var(--font-heading); font-size: 2.5rem; font-style: italic; font-weight: 900;">Vamos juntos<br>transformar essa vida?</h2>
+    </div>
+    
+    <!-- Pet Image and Info Row -->
+    <div class="pet-info-row">
+        <!-- Pet Image -->
+        <div class="pet-image-container">
             {% if static_image_path %}
-                <img src="{% static static_image_path %}" 
-                     class="w-100"
-                     style="height: 50vh; object-fit: cover;"
-                     alt="{{ pet.nome }}">
+                <img src="{% static static_image_path %}" alt="{{ pet.nome }}">
             {% elif imagens.first and imagens.first.imagem %}
-                <img src="{{ imagens.first.imagem.url }}" 
-                     class="w-100" 
-                     style="height: 40vh; object-fit: cover;"
-                     alt="{{ pet.nome }}">
+                <img src="{{ imagens.first.imagem.url }}" alt="{{ pet.nome }}">
             {% else %}
-                <div class="d-flex align-items-center justify-content-center bg-secondary" style="height: 50vh;">
+                <div class="d-flex align-items-center justify-content-center bg-secondary" style="aspect-ratio: 1/1;">
                     <div class="text-center text-white">
                         <i class="fas fa-paw fa-5x mb-3"></i>
-                        <h5>Sem foto disponível</h5>
+                        <h5>Sem foto</h5>
                     </div>
                 </div>
             {% endif %}
+        </div>
+        
+        <!-- Pet Info Text -->
+        <div class="pet-info-text">
+            <h1 class="pet-name-title">{{ pet.nome }}</h1>
+            <p class="pet-description">
+                {% if pet.descricao %}
+                    {{ pet.descricao }}
+                {% else %}
+                    {{ pet.get_tipo_display }}{% if pet.get_sexo_display == 'Fêmea' %}a{% else %}o{% endif %} 
+                    {% if pet.idade %}de {{ pet.idade }} ano{{ pet.idade|pluralize }}{% endif %}, 
+                    disponível para adoção.
+                {% endif %}
+            </p>
         </div>
     </div>
     
-    <div class="container py-4">
-        <!-- Miniaturas -->
-        {% if imagens.count > 1 %}
-            <div class="d-flex gap-2 mb-4 justify-content-center">
-                {% for imagem in imagens|slice:":4" %}
-                    {% if not forloop.first %}
-                        <img src="{{ imagem.imagem.url }}" 
-                             class="rounded-2 cursor-pointer miniatura" 
-                             alt="{{ pet.nome }}" 
-                             style="height: 80px; width: 80px; object-fit: cover;"
-                             onclick="trocarImagemPrincipal('{{ imagem.imagem.url }}')">
-                    {% endif %}
-                {% endfor %}
-            </div>
-        {% endif %}
+    <!-- QR Code Section -->
+    <div class="qr-section flex-grow-1">
+        <p class="qr-instruction">Aponte a câmera do seu celular para<br>o QR Code e preencha o formulário de adoção.</p>
         
-        <!-- Nome e Tipo -->
-        <div class="mb-4 text-center">
-            <h3 class="text-white mb-3 fs-4" style="font-family: var(--font-heading);">Vamos juntos transformar essa vida?</h3>
-            <h1 class="display-2 fw-bold text-marycats-yellow mb-3" style="font-family: var(--font-heading);">{{ pet.nome }}</h1>
-            <p class="lead text-white-50 mb-0 fs-4">
-                <i class="fas fa-tag me-2 text-marycats-yellow"></i>
-                {% if pet.raca %}{{ pet.raca }} • {% endif %}{{ pet.get_tipo_display }} • {{ pet.get_sexo_display }}
-            </p>
-            
-            <!-- Admin Edit Button -->
-            {% if is_authenticated %}
-            <div class="mt-3">
-                <a href="{% url 'editar_pet' pet.id %}" class="btn bg-marycats-yellow text-marycats-dark-pink rounded-pill fw-bold">
-                    <i class="fas fa-edit me-2"></i>Editar Bichinho
-                </a>
-            </div>
-            {% endif %}
+        <div class="qr-code-box">
+            <img src="{% static 'images/Forms_qrcode.png' %}" alt="QR Code para formulário de adoção">
         </div>
         
-        <div class="row">
-            <!-- Informações do Bichinho -->
-            <div class="col-lg-6">
-                <!-- Card Único com Flex Layout -->
-                {% if pet.idade %}
-                <div class="card border-0 shadow-lg rounded-4 mb-4 bg-white bg-opacity-10">
-                    <div class="card-body">
-                        <div class="d-flex flex-wrap gap-4 justify-content-center">
-                            <!-- Idade -->
-                            <div class="text-center">
-                                <i class="fas fa-calendar-alt fa-3x text-marycats-yellow mb-3"></i>
-                                <h4 class="text-white mb-2">Idade</h4>
-                                <p class="fw-bold text-white mb-0 fs-4">{{ pet.idade }} ano{{ pet.idade|pluralize }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
-                
-                <!-- Personalidade -->
-                {% if pet.personalidade %}
-                <div class="card border-0 shadow-lg rounded-4 mb-4 bg-white bg-opacity-10">
-                    <div class="card-body">
-                        <h4 class="card-title text-marycats-yellow mb-3">
-                            <i class="fas fa-heart me-2"></i>Personalidade
-                        </h4>
-                        <p class="card-text text-white fs-5">{{ pet.personalidade }}</p>
-                    </div>
-                </div>
-                {% endif %}
-                
-                <!-- Descrição -->
-                {% if pet.descricao %}
-                    <div class="card border-0 shadow-lg rounded-4 mb-4 bg-white bg-opacity-10">
-                        <div class="card-body">
-                            <h4 class="card-title text-marycats-yellow mb-3">
-                                <i class="fas fa-info-circle me-2"></i>Sobre {{ pet.nome }}
-                            </h4>
-                            <div class="card-text text-white fs-5">{{ pet.descricao|linebreaks }}</div>
-                        </div>
-                    </div>
-                {% endif %}
-            </div>
-            
-            <!-- QR Code -->
-            <div class="col-lg-6">
-                <div class="card border-0 shadow-lg rounded-4 bg-marycats-yellow">
-                    <div class="card-body text-center">
-                        <h6 class="card-title text-marycats-dark-pink mb-3 fw-bold">
-                            <i class="fas fa-qrcode me-2"></i>QR Code - Formulário de Adoção
-                        </h6>
-                        <img src="{% static 'images/Forms_qrcode.png' %}"
-                             class="img-fluid" 
-                             alt="QR Code para formulário de adoção"
-                             style="max-width: 300px;">
-                        <p class="text-marycats-dark-pink mt-2 mb-0 fw-semibold">Escaneie para acessar o formulário</p>
-                    </div>
-                </div>
-            </div>
+        <div>
+            <p class="qr-footer-message">Depois de enviar o formulário, nossa equipe entrará<br>em contato para seguir com o processo de adoção</p>
         </div>
     </div>
-</div>
-
-<!-- Modal de Interesse -->
-<div class="modal fade" id="interesseModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content rounded-4">
-            <div class="modal-header border-0">
-                <h5 class="modal-title text-primary">
-                    <i class="fas fa-heart me-2"></i>Interesse na Adoção
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <p class="text-muted">Parabéns pelo interesse em adotar <strong>{{ pet.nome }}</strong>!</p>
-                <p>Para dar continuidade ao processo de adoção, você será direcionado para falar com um de nossos atendentes.</p>
-                <div class="alert alert-info">
-                    <i class="fas fa-info-circle me-2"></i>
-                    <strong>Informações importantes:</strong>
-                    <ul class="mb-0 mt-2">
-                        <li>Documentação necessária (RG, CPF, Comprovante de residência)</li>
-                        <li>Visita prévia para conhecer o bichinho</li>
-                        <li>Termo de adoção a ser assinado</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="modal-footer border-0">
-                <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary rounded-pill" onclick="confirmarInteresse()">Confirmar Interesse</button>
-            </div>
-        </div>
+    
+    <!-- Paw Footer -->
+    <div class="text-center bg-marycats-dark-pink py-3">
+        <img src="{% static 'images/paw-footer.png' %}" alt="Paw prints" style="max-width: 100%; height: auto;" onerror="this.style.display='none'">
     </div>
 </div>
 
 <script>
-function trocarImagemPrincipal(url) {
-    // Trocar imagem principal no topo
-    const imgPrincipal = document.querySelector('.row.g-0 img');
-    if (imgPrincipal) {
-        imgPrincipal.src = url;
+// Adjust pet name size based on length
+document.addEventListener('DOMContentLoaded', function() {
+    const petName = document.querySelector('.pet-name-title');
+    if (petName) {
+        const nameLength = petName.textContent.trim().length;
+        if (nameLength > 12) {
+            petName.classList.add('name-very-long');
+        } else if (nameLength > 9) {
+            petName.classList.add('name-long');
+        } else if (nameLength > 6) {
+            petName.classList.add('name-medium');
+        }
     }
-}
-
-function mostrarInteresse() {
-    const modal = new bootstrap.Modal(document.getElementById('interesseModal'));
-    modal.show();
-}
-
-function confirmarInteresse() {
-    alert('Obrigado pelo interesse! Um atendente será acionado para ajudá-lo com a adoção de {{ pet.nome }}.\n\nPor favor, aguarde um momento.');
-    const modal = bootstrap.Modal.getInstance(document.getElementById('interesseModal'));
-    modal.hide();
-}
+});
 </script>
-
- 
 {% endblock %}

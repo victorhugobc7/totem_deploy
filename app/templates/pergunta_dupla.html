@@ -3,63 +3,65 @@
 
 {% block title %}{{ pergunta.titulo }} - Totem de Adoção{% endblock %}
 
+{% block extra_css %}
+<style>
+    /* Hide navbar on this page */
+    .navbar { display: none !important; }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-gradient-light py-4">
-    <div class="row w-100">
-        <div class="col-12 col-md-10 col-lg-8 mx-auto">
-            <!-- Voltar Button -->
-            <div class="row mb-3">
-                <div class="col-12">
-                    <button id="btn-voltar" class="btn btn-outline-marycats-yellow bg-marycats-dark-pink text-marycats-yellow rounded-pill px-4 py-2">
-                        <i class="fas fa-arrow-left me-2"></i>Voltar
-                    </button>
+<div class="container-fluid h-100 d-flex flex-column align-items-center justify-content-start bg-gradient-light pt-4 pb-0 px-5">
+    <!-- Logo at top - sized for 1080x1920 portrait -->
+    <div class="text-center mb-4">
+        <a href="{% url 'tela_comecar' %}">
+            <img src="{% static 'images/MaryCats_Branco.png' %}" alt="MaryCats Logo" style="height: 400px;">
+        </a>
+    </div>
+    
+    <!-- Título da Pergunta com fundo amarelo -->
+    <div class="text-center mb-5 w-100 px-3">
+        <h2 class="d-inline-block px-5 py-3 bg-marycats-yellow text-marycats-dark-pink" style="font-family: var(--font-heading); font-size: 4.5rem; font-style: italic; font-weight: 900; -webkit-text-stroke: 1px currentColor;">{{ pergunta.titulo }}</h2>
+    </div>
+    
+    {% if step == 1 %}
+    <!-- Step 1: GATO/CACHORRO - Stacked vertically -->
+    <div class="d-flex flex-column gap-4 w-100 px-3">
+        {% for opcao in pergunta.opcoes %}
+        <div class="card border-4 opcao-card-full cursor-pointer bg-marycats-dark-pink border-marycats-yellow" 
+             data-valor="{{ opcao.valor }}" data-tipo="{{ opcao.tipo }}">
+            <div class="text-center py-5 px-4">
+                <div class="mb-3">
+                    <i class="{{ opcao.icone }} text-marycats-yellow" style="font-size: 10rem;"></i>
+                </div>
+                <h5 class="card-title text-marycats-yellow mb-0" style="font-size: 4rem; font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.08em;">{{ opcao.texto }}</h5>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <!-- Step 2 & 3: Side by side options + Não tenho preferência below -->
+    <div class="w-100 px-3">
+        <!-- Two options side by side -->
+        <div class="d-flex gap-4 mb-4">
+            {% for opcao in pergunta.opcoes %}
+            <div class="card border-4 opcao-card-full cursor-pointer bg-marycats-dark-pink border-marycats-yellow flex-fill" 
+                 data-valor="{{ opcao.valor }}" data-tipo="{{ opcao.tipo }}">
+                <div class="text-center px-3" style="padding-top: 8rem; padding-bottom: 8rem;">
+                    <h5 class="card-title text-marycats-yellow mb-0" style="font-size: 4rem; font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 900;">{{ opcao.texto }}</h5>
                 </div>
             </div>
-            
-            <!-- Progress Bar -->
-            <div class="progress mb-4" style="height: 12px;">
-                <div class="progress-bar bg-primary" role="progressbar" 
-                     style="background-color: var(--marycats-yellow) !important; width: {% if step == 1 %}25%{% elif step == 2 %}50%{% elif step == 3 %}75%{% else %}100%{% endif %}"></div>
-            </div>
-            
-            <!-- Título da Pergunta -->
-            <div class="text-center mb-5">
-                <h2 class="question-title fw-bold mb-3">{{ pergunta.titulo }}</h2>
-                <p class="question-subtitle fw-bold">Escolha a opção que melhor se encaixa com você</p>
-            </div>
-            
-            <!-- Opções de Resposta -->
-            <div class="row g-4 mb-4 justify-content-center">
-                {% for opcao in pergunta.opcoes %}
-                <div class="col-6 col-md-5">
-                    <div class="card h-100 border-4 shadow-lg opcao-card cursor-pointer bg-marycats-dark-pink border-marycats-yellow" 
-                         data-valor="{{ opcao.valor }}" data-tipo="{{ opcao.tipo }}">
-                        <div class="text-center p-4">
-                            <div class="mb-3">
-                                <i class="{{ opcao.icone }} text-marycats-yellow"></i>
-                            </div>
-                            <h5 class="card-title text-marycats-yellow mb-0">{{ opcao.texto }}</h5>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            <!-- Botões -->
-            <div class="row g-3 mt-4">
-                <div class="col-md-6">
-                    <button id="btn-continuar" class="btn btn-continuar-disabled btn-lg rounded-pill w-100 py-3 fw-bold" 
-                            disabled>
-                        Continuar <i class="fas fa-arrow-right ms-2"></i>
-                    </button>
-                </div>
-                <div class="col-md-6">
-                    <button id="btn-sem-preferencia" class="btn btn-outline-marycats-yellow bg-marycats-dark-pink text-marycats-yellow btn-lg rounded-pill w-100 py-3">
-                        Não tenho preferência
-                    </button>
-                </div>
+            {% endfor %}
+        </div>
+        <!-- Não tenho preferência - full width below -->
+        <div class="card border-4 opcao-card-full cursor-pointer bg-marycats-dark-pink border-marycats-yellow" 
+             data-valor="sem_preferencia">
+            <div class="text-center px-4" style="padding-top: 8rem; padding-bottom: 8rem;">
+                <h5 class="card-title text-marycats-yellow mb-0" style="font-size: 4rem; font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 900;">NÃO TENHO PREFERÊNCIA</h5>
             </div>
         </div>
     </div>
+    {% endif %}
 </div>
 
 {% endblock %}
@@ -67,48 +69,26 @@
 {% block extra_js %}
 <script>
 $(function() {
-    let opcaoSelecionada = null;
-    
-    $('.opcao-card').on('click', function() {
-        $('.opcao-card').removeClass('selected');
+    // Click on option card goes directly to next step
+    $('.opcao-card-full').on('click', function() {
+        $('.opcao-card-full').removeClass('selected');
         $(this).addClass('selected');
-        opcaoSelecionada = $(this).data('valor');
-        $('#btn-continuar').prop('disabled', false);
-        $('#btn-continuar').removeClass('btn-continuar-disabled').addClass('btn-continuar-enabled');
-    });
-    
-    $('#btn-sem-preferencia').on('click', function() {
-        opcaoSelecionada = 'sem_preferencia';
-        $('.opcao-card').removeClass('selected');
-        $('#btn-continuar').prop('disabled', false);
-        $('#btn-continuar').removeClass('btn-continuar-disabled').addClass('btn-continuar-enabled');
-    });
-    
-    $('#btn-voltar').on('click', function() {
-        {% if step == 1 %}
-            window.location.href = '{% url "tela_comecar" %}';
-        {% elif step == 2 %}
-            window.location.href = '{% url "pergunta_dupla" step=1 %}';
-        {% elif step == 3 %}
-            window.location.href = '{% url "pergunta_dupla" step=2 %}';
-        {% endif %}
-    });
-    
-    $('#btn-continuar').on('click', function() {
-        if (opcaoSelecionada) {
-            $.ajax({
-                url: '{% url "salvar_preferencia" %}',
-                method: 'POST',
-                headers: { 'X-CSRFToken': '{{ csrf_token }}' },
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    chave: {% if step == 1 %}'tipo'{% elif step == 2 %}'sexo'{% else %}'idade'{% endif %},
-                    valor: opcaoSelecionada
-                }),
-                success: function() { window.location.href = '{{ pergunta.proxima }}'; },
-                error: function() { alert('Erro ao salvar preferência. Tente novamente.'); }
-            });
-        }
+        
+        var opcaoSelecionada = $(this).data('valor');
+        
+        // Save and navigate immediately
+        $.ajax({
+            url: '{% url "salvar_preferencia" %}',
+            method: 'POST',
+            headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+            contentType: 'application/json',
+            data: JSON.stringify({
+                chave: {% if step == 1 %}'tipo'{% elif step == 2 %}'sexo'{% else %}'idade'{% endif %},
+                valor: opcaoSelecionada
+            }),
+            success: function() { window.location.href = '{{ pergunta.proxima }}'; },
+            error: function() { alert('Erro ao salvar preferência. Tente novamente.'); }
+        });
     });
 });
 </script>

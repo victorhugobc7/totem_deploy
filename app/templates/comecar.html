@@ -65,19 +65,17 @@
 {% endif %}
 
 <!-- Content Section -->
-<div class="container-fluid content-section bg-dark-pink d-flex pt-5 justify-content-center">
+<div class="container-fluid content-section bg-dark-pink d-flex pt-4 justify-content-center">
     <div class="row w-100">
         <div class="col-12 text-center justify-content-center">
-            <!-- Logo e Título -->
-            <div class="mb-4">
-                <h1 class="display-3 fw-bold text-white mb-3" style="font-family: var(--font-heading);">Adote um bichinho</h1>
-                <p class="lead text-white-50 mb-3 fs-4">Responda algumas perguntas e descubra o bichinho perfeito para você!</p>
+            <!-- Logo e Título com fundo amarelo -->
+            <div class="mb-5">
+                <h1 class="display-3 fw-bold d-inline-block px-4 py-2 mt-5 bg-marycats-yellow text-marycats-dark-pink" style="font-family: var(--font-heading);">Adote um bichinho!</h1>
             </div>
 
-            <div class="pt-4">
-                <a href="{% url 'pergunta_dupla' step=1 %}" class="btn mb-4 btn-light btn-lg rounded-pill px-5 py-3 fw-bold text-marycats-dark-pink shadow-lg" style="font-size: 1.6rem;">
-                    <i class="fas fa-play me-2"></i>
-                    Começar Agora
+            <div class="pt-3 px-5">
+                <a href="{% url 'pergunta_dupla' step=1 %}" class="btn btn-comecar-outline btn-lg w-100 fw-bold" style="font-size: 2rem; padding: 8rem 0px;">
+                    Click aqui para começar
                 </a>
             </div>
             </div>

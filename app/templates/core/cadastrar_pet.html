@@ -3,25 +3,106 @@
 
 {% block title %}Core Admin - Cadastrar Bichinho{% endblock %}
 
+{% block extra_css %}
+<style>
+    .cadastro-container {
+        min-height: 100vh;
+        padding: 2rem;
+    }
+    
+    .cadastro-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+    
+    .cadastro-title {
+        font-family: var(--font-heading);
+        font-size: 2.5rem;
+        font-weight: 900;
+        color: var(--marycats-yellow);
+    }
+    
+    .btn-voltar {
+        background-color: transparent;
+        color: var(--marycats-yellow);
+        border: 2px solid var(--marycats-yellow);
+        font-family: var(--font-heading);
+        font-weight: 700;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        text-decoration: none;
+    }
+    
+    .btn-voltar:hover {
+        background-color: var(--marycats-yellow);
+        color: var(--marycats-dark-pink);
+    }
+    
+    .form-card {
+        background-color: white;
+        border-radius: 1rem;
+        padding: 2.5rem;
+    }
+    
+    .form-label {
+        font-family: var(--font-heading);
+        font-weight: 700;
+        color: var(--marycats-dark-pink);
+        font-size: 1.1rem;
+    }
+    
+    .form-control,
+    .form-select {
+        border: 2px solid var(--marycats-yellow);
+        padding: 0.75rem 1.25rem;
+        font-size: 1rem;
+    }
+    
+    .form-control:focus,
+    .form-select:focus {
+        border-color: var(--marycats-dark-pink);
+        box-shadow: 0 0 0 0.2rem rgba(177, 28, 108, 0.25);
+    }
+    
+    .btn-cadastrar {
+        background-color: var(--marycats-dark-pink);
+        color: white;
+        font-family: var(--font-heading);
+        font-weight: 900;
+        font-size: 1.3rem;
+        padding: 1rem;
+        border: none;
+        width: 100%;
+    }
+    
+    .btn-cadastrar:hover {
+        background-color: #8a1555;
+        color: white;
+    }
+    
+    .form-text {
+        color: #666;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container-fluid h-100 bg-dark-pink py-4">
-    <div class="container">
-        <!-- Header -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="d-flex justify-content-end">
-                    <div class="text-end">
-                        <a href="{% url 'core_dashboard' %}" class="text-decoration-none">
-                            <h1 class="h3 fw-bold text-white mb-2">Cadastrar Bichinho</h1>
-                            <div class="btn btn-outline-marycats-yellow bg-marycats-dark-pink text-marycats-yellow rounded-pill">
-                                <i class="fas fa-arrow-left me-2"></i>Voltar
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
+<div class="cadastro-container bg-marycats-dark-pink">
+    <!-- Logo -->
+    <div class="text-center mb-4">
+        <img src="{% static 'images/MaryCats_Branco.png' %}" alt="Mary Cats Logo" style="max-width: 150px; height: auto;">
+    </div>
+    
+    <!-- Header -->
+    <div class="cadastro-header">
+        <h1 class="cadastro-title">Cadastrar Bichinho</h1>
+        <a href="{% url 'core_dashboard' %}" class="btn-voltar rounded-3">
+            ← Voltar
+        </a>
+    </div>
+    
     {% if messages %}
         {% for message in messages %}
             <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
@@ -33,80 +114,78 @@
     
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <div class="card border-0 shadow-lg rounded-4 bg-white bg-opacity-10">
-                <div class="card-body p-4">
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="nome" class="form-label fw-bold text-white">Nome do Bichinho *</label>
-                                <input type="text" class="form-control rounded-pill" id="nome" name="nome" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="tipo" class="form-label fw-bold text-white">Tipo *</label>
-                                <select class="form-select rounded-pill" id="tipo" name="tipo" required onchange="updatePorteOptions()">
-                                    <option value="">Selecione o tipo</option>
-                                    <option value="cachorro">Cachorro</option>
-                                    <option value="gato">Gato</option>
-                                </select>
-                            </div>
+            <div class="form-card">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="nome" class="form-label">Nome do Bichinho *</label>
+                            <input type="text" class="form-control rounded-3" id="nome" name="nome" required>
                         </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="sexo" class="form-label fw-bold text-white">Sexo *</label>
-                                <select class="form-select rounded-pill" id="sexo" name="sexo" required>
-                                    <option value="">Selecione o sexo</option>
-                                    <option value="macho">Macho</option>
-                                    <option value="femea">Fêmea</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="raca" class="form-label fw-bold text-white">Raça</label>
-                                <input type="text" class="form-control rounded-pill" id="raca" name="raca" placeholder="Opcional">
-                            </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="tipo" class="form-label">Tipo *</label>
+                            <select class="form-select rounded-3" id="tipo" name="tipo" required onchange="updatePorteOptions()">
+                                <option value="">Selecione o tipo</option>
+                                <option value="cachorro">Cachorro</option>
+                                <option value="gato">Gato</option>
+                            </select>
                         </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="idade" class="form-label fw-bold text-white">Idade (anos)</label>
-                                <input type="number" class="form-control rounded-pill" id="idade" name="idade" min="0" max="30" placeholder="Opcional">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="porte" class="form-label fw-bold text-white">Porte</label>
-                                <select class="form-select rounded-pill" id="porte" name="porte">
-                                    <option value="">Selecione o porte (opcional)</option>
-                                    <option value="pequeno">Pequeno</option>
-                                    <option value="medio">Médio</option>
-                                    <option value="grande" class="porte-grande">Grande</option>
-                                </select>
-                            </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="sexo" class="form-label">Sexo *</label>
+                            <select class="form-select rounded-3" id="sexo" name="sexo" required>
+                                <option value="">Selecione o sexo</option>
+                                <option value="macho">Macho</option>
+                                <option value="femea">Fêmea</option>
+                            </select>
                         </div>
-                        
-                        <div class="mb-3">
-                            <label for="personalidade" class="form-label fw-bold text-white">Personalidade</label>
-                            <textarea class="form-control rounded-3" id="personalidade" name="personalidade" rows="3" placeholder="Descreva a personalidade do bichinho..."></textarea>
+                        <div class="col-md-6 mb-3">
+                            <label for="raca" class="form-label">Raça</label>
+                            <input type="text" class="form-control rounded-3" id="raca" name="raca" placeholder="Opcional">
                         </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="idade" class="form-label">Idade (anos)</label>
+                            <input type="number" class="form-control rounded-3" id="idade" name="idade" min="0" max="30" placeholder="Opcional">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="porte" class="form-label">Porte</label>
+                            <select class="form-select rounded-3" id="porte" name="porte">
+                                <option value="">Selecione o porte (opcional)</option>
+                                <option value="pequeno">Pequeno</option>
+                                <option value="medio">Médio</option>
+                                <option value="grande" class="porte-grande">Grande</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="personalidade" class="form-label">Personalidade</label>
+                        <textarea class="form-control rounded-3" id="personalidade" name="personalidade" rows="3" placeholder="Descreva a personalidade do bichinho..."></textarea>
+                    </div>
 
-                        <div class="mb-3">
-                            <label for="descricao" class="form-label fw-bold text-white">Descrição</label>
-                            <textarea class="form-control rounded-3" id="descricao" name="descricao" rows="4" placeholder="Informações adicionais sobre o bichinho..."></textarea>
-                        </div>
+                    <div class="mb-3">
+                        <label for="descricao" class="form-label">Descrição</label>
+                        <textarea class="form-control rounded-3" id="descricao" name="descricao" rows="4" placeholder="Informações adicionais sobre o bichinho..."></textarea>
+                    </div>
 
-                        <div class="mb-4">
-                            <label for="imagem" class="form-label fw-bold text-white">Imagem do Bichinho</label>
-                            <input type="file" class="form-control rounded-pill" id="imagem" name="imagem" accept="image/*">
-                            <div class="form-text text-white-50">Formatos aceitos: JPG, PNG, GIF</div>
-                        </div>
-                        
-                        <div class="d-grid">
-                            <button type="submit" class="btn bg-marycats-yellow text-marycats-dark-pink btn-lg rounded-pill fw-bold border-0">
-                                <i class="fas fa-save me-2"></i>Cadastrar Bichinho
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                    <div class="mb-4">
+                        <label for="imagem" class="form-label">Imagem do Bichinho</label>
+                        <input type="file" class="form-control rounded-3" id="imagem" name="imagem" accept="image/*">
+                        <div class="form-text">Formatos aceitos: JPG, PNG, GIF</div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-cadastrar rounded-3">
+                            Cadastrar Bichinho
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -119,7 +198,6 @@ function updatePorteOptions() {
     
     if (tipo === 'gato') {
         porteGrande.style.display = 'none';
-        // If grande was selected, change to empty
         if (document.getElementById('porte').value === 'grande') {
             document.getElementById('porte').value = '';
         }

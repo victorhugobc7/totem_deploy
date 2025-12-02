@@ -3,103 +3,105 @@
 
 {% block title %}Bichinhos Recomendados - Totem de Adoção{% endblock %}
 
-{% block content %}
-<div class="container-fluid bg-dark-pink h-100 py-5">
-    <div class="container">
-        <!-- Header -->
-        <div class="row mb-5">
-            <div class="col-12 text-center">
-                <h1 class="display-3 fw-bold text-white mb-3" style="font-family: var(--font-heading);">Quem vai ganhar seu coração hoje?</h1>
-                <p class="lead text-white-50 fs-4">Encontramos {{ pets_compatíveis|length }} bichinho(s) compatível(is) com suas preferências</p>
-            </div>
-        </div>
+{% block extra_css %}
+<style>
+    .pet-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        padding: 0 2rem;
+        width: 100%;
+    }
     
-    <!-- Cards de Pets -->
+    .pet-grid-item {
+        position: relative;
+        aspect-ratio: 1 / 1;
+        overflow: hidden;
+        border-radius: 0.75rem;
+        cursor: pointer;
+    }
+    
+    .pet-grid-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .pet-grid-item .pet-name {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        background-color: var(--marycats-yellow);
+        color: var(--marycats-dark-pink);
+        font-family: var(--font-heading);
+        font-weight: 900;
+        font-size: 1.5rem;
+        padding: 0.5rem 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        z-index: 10;
+    }
+    
+    .pet-grid-item .no-image {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f0f0f0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column h-100 bg-marycats-dark-pink">
+    <!-- Logo at top -->
+    <div class="text-center pt-4 pb-3">
+        <img src="{% static 'images/MaryCats_Branco.png' %}" alt="Mary Cats Logo" style="max-width: 400px; height: auto;">
+    </div>
+    
+    <!-- Título com fundo amarelo -->
+    <div class="text-center mb-4 w-100 px-3">
+        <h2 class="d-inline-block px-5 py-3 bg-marycats-yellow text-marycats-dark-pink" style="font-family: var(--font-heading); font-size: 3rem; font-style: italic; font-weight: 900;">Quem vai ganhar<br>seu coração hoje?</h2>
+    </div>
+    
+    <!-- Grid de Pets -->
     {% if pets_compatíveis %}
-        <div class="row g-4">
+        <div class="pet-grid flex-grow-1">
             {% for item in pets_compatíveis %}
-                {% with pet=item.pet compatibilidade=item.compatibilidade %}
-                <div class="col-md-6 col-lg-4">
-                    <a href="{% url 'pet_detalhes' pet.id %}" class="text-decoration-none">
-                        <div class="card h-100 shadow-lg border-0 rounded-4 bg-white bg-opacity-10 card-hover">
-                            <!-- Imagem do Pet -->
-                            <div class="card-img-top-container">
-                                {% if item.static_image_path %}
-                                    <img src="{% static item.static_image_path %}" 
-                                         class="card-img-top w-100 h-100" 
-                                         alt="{{ pet.nome }}">
-                                {% elif pet.imagens.first and pet.imagens.first.imagem %}
-                                    <img src="{{ pet.imagens.first.imagem.url }}" 
-                                         class="card-img-top w-100 h-100" 
-                                         alt="{{ pet.nome }}">
-                                {% else %}
-                                    <div class="d-flex align-items-center justify-content-center h-100 bg-light">
-                                        <div class="text-center text-muted">
-                                            <i class="fas fa-paw fa-3x mb-2"></i>
-                                            <p>Sem foto disponível</p>
-                                        </div>
-                                    </div>
-                                {% endif %}
+                {% with pet=item.pet %}
+                <a href="{% url 'pet_detalhes' pet.id %}" class="text-decoration-none">
+                    <div class="pet-grid-item">
+                        {% if item.static_image_path %}
+                            <img src="{% static item.static_image_path %}" alt="{{ pet.nome }}">
+                        {% elif pet.imagens.first and pet.imagens.first.imagem %}
+                            <img src="{{ pet.imagens.first.imagem.url }}" alt="{{ pet.nome }}">
+                        {% else %}
+                            <div class="no-image">
+                                <i class="fas fa-paw fa-3x text-muted"></i>
                             </div>
-                            <!-- Corpo do Card -->
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title text-marycats-yellow fw-bold mb-2">{{ pet.nome }}</h5>
-                                <p class="card-text text-white-50 mb-2">
-                                    <small>{{ pet.raca }} • {{ pet.get_porte_display }}</small>
-                                </p>
-                                <p class="card-text text-white mb-3">
-                                    {% if pet.idade %}
-                                    <i class="fas fa-calendar-alt me-1 text-marycats-yellow"></i>
-                                    {{ pet.idade }} ano{{ pet.idade|pluralize }}
-                                    {% endif %}
-                                </p>
-                                <!-- Personalidade -->
-                                {% if pet.personalidade %}
-                                <div class="mb-3">
-                                    <small class="text-white-50 d-block mb-1">Personalidade:</small>
-                                    <p class="small text-white">{{ pet.personalidade|truncatewords:15 }}</p>
-                                </div>
-                                {% endif %}
-                                <!-- Botão -->
-                                <div class="mt-auto">
-                                    <span class="btn bg-marycats-yellow text-marycats-dark-pink w-100 rounded-pill fw-bold border-0">
-                                        <i class="fas fa-heart me-2"></i>Ver Detalhes
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                        {% endif %}
+                        <span class="pet-name">{{ pet.nome }}</span>
+                    </div>
+                </a>
                 {% endwith %}
             {% endfor %}
         </div>
-        
-        <!-- Botão Voltar -->
-        <div class="row mt-5">
-            <div class="col-12 text-center">
-                <a href="{% url 'tela_comecar' %}" class="btn btn-outline-marycats-yellow bg-marycats-dark-pink text-marycats-yellow btn-lg rounded-pill px-5 border-2">
-                    <i class="fas fa-redo me-2"></i>Refazer Busca
+    {% else %}
+        <!-- Mensagem quando não há pets -->
+        <div class="flex-grow-1 d-flex align-items-center justify-content-center px-4">
+            <div class="text-center">
+                <h3 class="text-marycats-yellow mb-5" style="font-size: 3rem; font-family: var(--font-heading); font-weight: 900;">Nenhum bichinho encontrado</h3>
+                <a href="{% url 'tela_comecar' %}" class="btn bg-marycats-yellow text-marycats-dark-pink btn-lg px-5 fw-bold border-0" style="font-size: 2rem; padding: 1.5rem 3rem;">
+                    Refazer Busca
                 </a>
             </div>
         </div>
-    {% else %}
-        <!-- Mensagem quando não há pets -->
-        <div class="row w-100">
-            <div class="col-12 text-center">
-                <div class="card border-0 shadow-lg rounded-4 bg-white bg-opacity-10 w-100">
-                    <div class="card-body p-5">
-                        <div class="display-1 text-white-50 mb-4">😔</div>
-                        <h3 class="text-marycats-yellow mb-3">Nenhum bichinho encontrado</h3>
-                        <p class="text-white-50 mb-4">Infelizmente não temos bichinhos disponíveis que correspondam às suas preferências no momento.</p>
-                        <a href="{% url 'tela_comecar' %}" class="btn bg-marycats-yellow text-marycats-dark-pink btn-lg rounded-pill px-5 fw-bold border-0">
-                            <i class="fas fa-redo me-2"></i>Refazer Busca
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
     {% endif %}
+    
+    <!-- Footer with paw prints -->
+    <div class="text-center py-4">
+        <img src="{% static 'images/paw-footer.png' %}" alt="Paw prints" style="max-width: 100%; height: auto;" onerror="this.style.display='none'">
     </div>
 </div>
-
 {% endblock %}

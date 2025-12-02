@@ -3,132 +3,302 @@
 
 {% block title %}Core Admin - Bichinhos{% endblock %}
 
+{% block extra_css %}
+<style>
+    .lista-container {
+        min-height: 100vh;
+        padding: 2rem;
+    }
+    
+    .lista-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+    
+    .lista-title {
+        font-family: var(--font-heading);
+        font-size: 2.5rem;
+        font-weight: 900;
+        color: var(--marycats-yellow);
+    }
+    
+    .lista-subtitle {
+        color: white;
+        font-size: 1.2rem;
+    }
+    
+    .btn-header {
+        background-color: var(--marycats-yellow);
+        color: var(--marycats-dark-pink);
+        font-family: var(--font-heading);
+        font-weight: 700;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        font-size: 1rem;
+        text-decoration: none;
+        display: inline-block;
+        margin-left: 0.5rem;
+    }
+    
+    .btn-header:hover {
+        background-color: #e5bc28;
+        color: var(--marycats-dark-pink);
+    }
+    
+    .btn-header-outline {
+        background-color: transparent;
+        color: var(--marycats-yellow);
+        border: 2px solid var(--marycats-yellow);
+    }
+    
+    .btn-header-outline:hover {
+        background-color: var(--marycats-yellow);
+        color: var(--marycats-dark-pink);
+    }
+    
+    .filter-card {
+        background-color: var(--marycats-yellow);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .filter-card .form-control,
+    .filter-card .form-select {
+        border: 2px solid var(--marycats-dark-pink);
+        font-size: 1rem;
+    }
+    
+    .filter-card .btn-search {
+        background-color: var(--marycats-dark-pink);
+        color: white;
+        font-weight: 700;
+        border: none;
+        padding: 0.5rem 1.5rem;
+    }
+    
+    .pet-card {
+        background-color: white;
+        border-radius: 1rem;
+        overflow: hidden;
+        height: 100%;
+    }
+    
+    .pet-card-img {
+        height: 200px;
+        object-fit: cover;
+        width: 100%;
+    }
+    
+    .pet-card-body {
+        padding: 1.5rem;
+    }
+    
+    .pet-card-name {
+        font-family: var(--font-heading);
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: var(--marycats-dark-pink);
+    }
+    
+    .pet-card-info {
+        color: #666;
+        font-size: 0.9rem;
+    }
+    
+    .badge-disponivel {
+        background-color: #28a745;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .badge-indisponivel {
+        background-color: #dc3545;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .btn-pet-action {
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .btn-ver {
+        background-color: transparent;
+        color: var(--marycats-dark-pink);
+        border: 2px solid var(--marycats-dark-pink);
+    }
+    
+    .btn-editar {
+        background-color: var(--marycats-yellow);
+        color: var(--marycats-dark-pink);
+        border: none;
+    }
+    
+    .btn-excluir {
+        background-color: transparent;
+        color: #dc3545;
+        border: 2px solid #dc3545;
+        width: 38px;
+        height: 38px;
+        padding: 0;
+    }
+    
+    .empty-state {
+        background-color: white;
+        border-radius: 1rem;
+        padding: 4rem 2rem;
+        text-align: center;
+    }
+    
+    .empty-state i {
+        font-size: 4rem;
+        color: var(--marycats-dark-pink);
+        opacity: 0.5;
+        margin-bottom: 1rem;
+    }
+    
+    .empty-state h5 {
+        font-family: var(--font-heading);
+        font-size: 1.5rem;
+        color: var(--marycats-dark-pink);
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container-fluid py-4 bg-marycats-dark-pink min-vh-100">
-    <div class="container">
-        <!-- Header -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h1 class="h3 fw-bold text-white mb-0">Lista de Bichinhos</h1>
-                        <p class="text-white-50">Gerencie todos os bichinhos cadastrados</p>
-                    </div>
-                    <div>
-                        <a href="{% url 'core_dashboard' %}" class="btn-outline-light rounded-pill me-2">
-                            <i class="fas fa-arrow-left me-2"></i>Voltar
-                        </a>
-                        <a href="{% url 'core_cadastrar_pet' %}" class="bg-marycats-yellow text-marycats-dark-pink rounded-pill fw-bold">
-                            <i class="fas fa-plus me-2"></i>Novo Bichinho
-                        </a>
-                    </div>
-                </div>
-            </div>
+<div class="lista-container bg-marycats-dark-pink">
+    <!-- Logo -->
+    <div class="text-center mb-4">
+        <img src="{% static 'images/MaryCats_Branco.png' %}" alt="Mary Cats Logo" style="max-width: 150px; height: auto;">
+    </div>
+    
+    <!-- Header -->
+    <div class="lista-header">
+        <div>
+            <h1 class="lista-title">Lista de Bichinhos</h1>
+            <p class="lista-subtitle">Gerencie todos os bichinhos cadastrados</p>
         </div>
-        
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            {% endfor %}
-        {% endif %}
-        
-        <!-- Filtros -->
-        <div class="card border-0 shadow-sm rounded-4 bg-white bg-opacity-10 mb-4">
-            <div class="card-body">
-                <form method="get" class="row g-3">
-                    <div class="col-md-6">
-                        <input type="text" class="form-control rounded-pill" name="q" placeholder="Buscar por nome..." value="{{ q }}">
-                    </div>
-                    <div class="col-md-4">
-                        <select class="form-select rounded-pill" name="disponivel">
-                            <option value="">Todos</option>
-                            <option value="true" {% if filtro_disponivel == 'true' %}selected{% endif %}>Disponíveis</option>
-                            <option value="false" {% if filtro_disponivel == 'false' %}selected{% endif %}>Indisponíveis</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <button type="submit" class="bg-marycats-yellow text-marycats-dark-pink w-100 rounded-pill fw-bold">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </form>
-            </div>
+        <div>
+            <a href="{% url 'core_dashboard' %}" class="btn-header btn-header-outline rounded-3">
+                ← Voltar
+            </a>
+            <a href="{% url 'core_cadastrar_pet' %}" class="btn-header rounded-3">
+                + Novo Bichinho
+            </a>
         </div>
-        
-        <!-- Lista de Bichinhos -->
-        <div class="row g-4">
-            {% for pet in pets %}
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100 border-0 shadow-lg rounded-4 bg-white bg-opacity-10">
-                    <!-- Imagem -->
-                    <div class="card-img-top-container" style="height: 200px; overflow: hidden;">
-                        {% with primeira_imagem=pet.imagens.first %}
-                        {% if primeira_imagem and primeira_imagem.static_image_path %}
-                            <img src="{% static primeira_imagem.static_image_path %}" class="w-100 h-100" style="object-fit: cover;" alt="{{ pet.nome }}">
-                        {% elif primeira_imagem and primeira_imagem.imagem %}
-                            <img src="{{ primeira_imagem.imagem.url }}" class="w-100 h-100" style="object-fit: cover;" alt="{{ pet.nome }}">
-                        {% else %}
-                            <div class="d-flex align-items-center justify-content-center h-100 bg-secondary">
-                                <i class="fas fa-paw fa-3x text-white-50"></i>
-                            </div>
-                        {% endif %}
-                        {% endwith %}
+    </div>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+    <!-- Filtros -->
+    <div class="filter-card">
+        <form method="get" class="row g-3 align-items-center">
+            <div class="col-md-6">
+                <input type="text" class="form-control rounded-3" name="q" placeholder="Buscar por nome..." value="{{ q }}">
+            </div>
+            <div class="col-md-4">
+                <select class="form-select rounded-3" name="disponivel">
+                    <option value="">Todos</option>
+                    <option value="true" {% if filtro_disponivel == 'true' %}selected{% endif %}>Disponíveis</option>
+                    <option value="false" {% if filtro_disponivel == 'false' %}selected{% endif %}>Indisponíveis</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-search w-100 rounded-3">
+                    Buscar
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Lista de Bichinhos -->
+    <div class="row g-4">
+        {% for pet in pets %}
+        <div class="col-md-6 col-lg-4">
+            <div class="pet-card">
+                <!-- Imagem -->
+                <div style="height: 200px; overflow: hidden;">
+                    {% with primeira_imagem=pet.imagens.first %}
+                    {% if primeira_imagem and primeira_imagem.static_image_path %}
+                        <img src="{% static primeira_imagem.static_image_path %}" class="pet-card-img" alt="{{ pet.nome }}">
+                    {% elif primeira_imagem and primeira_imagem.imagem %}
+                        <img src="{{ primeira_imagem.imagem.url }}" class="pet-card-img" alt="{{ pet.nome }}">
+                    {% else %}
+                        <div class="d-flex align-items-center justify-content-center h-100 bg-light">
+                            <i class="fas fa-paw fa-3x text-muted"></i>
+                        </div>
+                    {% endif %}
+                    {% endwith %}
+                </div>
+                
+                <div class="pet-card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="pet-card-name mb-0">{{ pet.nome }}</h5>
+                        <span class="{% if pet.disponivel %}badge-disponivel{% else %}badge-indisponivel{% endif %}">
+                            {{ pet.disponivel|yesno:"Disponível,Indisponível" }}
+                        </span>
                     </div>
+                    <p class="pet-card-info mb-2">
+                        {{ pet.get_tipo_display }} • {{ pet.get_sexo_display }}
+                        {% if pet.raca %} • {{ pet.raca }}{% endif %}
+                    </p>
+                    {% if pet.idade %}
+                    <p class="pet-card-info mb-3">
+                        <i class="fas fa-calendar-alt me-1"></i>
+                        {{ pet.idade }} ano{{ pet.idade|pluralize }}
+                    </p>
+                    {% endif %}
                     
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-start mb-2">
-                            <h5 class="card-title text-marycats-yellow fw-bold mb-0">{{ pet.nome }}</h5>
-                            <span class="badge {% if pet.disponivel %}bg-success{% else %}bg-danger{% endif %}">
-                                {{ pet.disponivel|yesno:"Disponível,Indisponível" }}
-                            </span>
-                        </div>
-                        <p class="text-white-50 small mb-2">
-                            {{ pet.get_tipo_display }} • {{ pet.get_sexo_display }}
-                            {% if pet.raca %} • {{ pet.raca }}{% endif %}
-                        </p>
-                        {% if pet.idade %}
-                        <p class="text-white small mb-3">
-                            <i class="fas fa-calendar-alt me-1 text-marycats-yellow"></i>
-                            {{ pet.idade }} ano{{ pet.idade|pluralize }}
-                        </p>
-                        {% endif %}
-                        
-                        <!-- Ações -->
-                        <div class="d-flex gap-2 align-items-center">
-                            <a href="{% url 'pet_detalhes' pet.id %}" class="btn-sm btn-outline-light rounded-pill flex-grow-1" style="height: 38px; display: flex; align-items: center; justify-content: center;">
-                                <i class="fas fa-eye me-1"></i>Ver
-                            </a>
-                            <a href="{% url 'editar_pet' pet.id %}" class="btn-sm bg-marycats-yellow text-marycats-dark-pink rounded-pill flex-grow-1" style="height: 38px; display: flex; align-items: center; justify-content: center;">
-                                <i class="fas fa-edit me-1"></i>Editar
-                            </a>
-                            <form method="post" action="{% url 'excluir_pet' pet.id %}" class="d-inline" onsubmit="return confirm('Tem certeza que deseja excluir {{ pet.nome }}?');">
-                                {% csrf_token %}
-                                <button type="submit" class="btn-sm btn-outline-danger rounded-pill" style="height: 38px; width: 38px; display: flex; align-items: center; justify-content: center;">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% empty %}
-            <div class="col-12">
-                <div class="card border-0 shadow-lg rounded-4 bg-white bg-opacity-10">
-                    <div class="card-body text-center py-5">
-                        <i class="fas fa-paw fa-4x text-white-50 mb-3"></i>
-                        <h5 class="text-marycats-yellow">Nenhum bichinho encontrado</h5>
-                        <p class="text-white-50">Cadastre o primeiro bichinho!</p>
-                        <a href="{% url 'core_cadastrar_pet' %}" class="bg-marycats-yellow text-marycats-dark-pink rounded-pill fw-bold">
-                            <i class="fas fa-plus me-2"></i>Cadastrar Bichinho
+                    <!-- Ações -->
+                    <div class="d-flex gap-2 align-items-center">
+                        <a href="{% url 'pet_detalhes' pet.id %}" class="btn-pet-action btn-ver flex-grow-1">
+                            <i class="fas fa-eye me-1"></i>Ver
                         </a>
+                        <a href="{% url 'editar_pet' pet.id %}" class="btn-pet-action btn-editar flex-grow-1">
+                            <i class="fas fa-edit me-1"></i>Editar
+                        </a>
+                        <form method="post" action="{% url 'excluir_pet' pet.id %}" class="d-inline" onsubmit="return confirm('Tem certeza que deseja excluir {{ pet.nome }}?');">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-pet-action btn-excluir">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
-            {% endfor %}
         </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="empty-state">
+                <i class="fas fa-paw"></i>
+                <h5>Nenhum bichinho encontrado</h5>
+                <p class="text-muted">Cadastre o primeiro bichinho!</p>
+                <a href="{% url 'core_cadastrar_pet' %}" class="btn-header rounded-3" style="display: inline-block;">
+                    + Cadastrar Bichinho
+                </a>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

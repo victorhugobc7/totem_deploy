@@ -93,6 +93,17 @@ def tela_comecar(request):
 
 def pergunta_dupla(request, step=1):
     """Perguntas com duas opções"""
+    
+    # Get the pet type preference from session for dynamic title
+    preferencias = request.session.get('preferencias', {})
+    tipo_pet = preferencias.get('tipo', 'gato')
+    
+    # Dynamic title based on pet type
+    if tipo_pet == 'cachorro':
+        titulo_idade = 'Que idade de cachorrinho você prefere?'
+    else:
+        titulo_idade = 'Que idade de gatinho você prefere?'
+    
     perguntas = {
         1: {
             'titulo': 'Escolha seu novo melhor amigo.',
@@ -111,7 +122,7 @@ def pergunta_dupla(request, step=1):
             'proxima': '/pergunta/dupla/3/'
         },
         3: {
-            'titulo': 'Que idade de gatinho você prefere?',
+            'titulo': titulo_idade,
             'opcoes': [
                 {'valor': 'filhote', 'texto': 'Filhote', 'icone': 'fas fa-dog fa-5x'},
                 {'valor': 'adulto', 'texto': 'Adulto', 'icone': 'fas fa-paw fa-5x'}

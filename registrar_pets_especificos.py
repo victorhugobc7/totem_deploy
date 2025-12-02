@@ -104,7 +104,7 @@ def registrar_pets_especificos():
     ]
     
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    imagens_path = os.path.join(script_dir, 'info-pets', 'Imagens')
+    imagens_path = os.path.join(script_dir, 'static', 'images', 'info-pets', 'Imagens')
     
     pets_criados = 0
     for pet_data in pets_data:
@@ -152,7 +152,7 @@ if __name__ == "__main__":
     print("📂 Verificando imagens disponíveis...")
     
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    imagens_path = os.path.join(script_dir, 'info-pets', 'Imagens')
+    imagens_path = os.path.join(script_dir, 'static', 'images', 'info-pets', 'Imagens')
     
     if not os.path.exists(imagens_path):
         print(f"❌ Diretório de imagens não encontrado: {imagens_path}")
