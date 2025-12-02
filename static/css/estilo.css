@@ -1,5 +1,22 @@
 /* Estilos Customizados para o Totem de Adoção Pet */
 
+/* Custom Fonts */
+@font-face {
+    font-family: 'Helvetica';
+    src: url('../fonts/Helvetica.ttc') format('truetype-collection');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mayonez';
+    src: url('../fonts/Mayonez W01 Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     --secondary-color: #764ba2;
     --success-color: #28a745;
@@ -11,20 +28,66 @@
     --marycats-dark-pink: #b11c6c;
     --marycats-yellow: #fdd12c;
     --primary-color: var(--marycats-yellow);
+    --font-heading: 'Mayonez', 'Helvetica Neue', sans-serif;
+    --font-body: 'Helvetica', 'Helvetica Neue', Arial, sans-serif;
 }
 
 /* Fontes */
 body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-family: var(--font-body);
     line-height: 1.6;
+    font-size: 1.1rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
     font-weight: 700;
 }
 
-.question-title{
+.question-title {
     color: var(--marycats-yellow) !important;
+    font-family: var(--font-heading);
+    font-size: 2.8rem;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.question-subtitle {
+    font-family: var(--font-body);
+    font-size: 1.4rem;
+    color: var(--marycats-yellow) !important;
+}
+
+/* Large Display Headings */
+.display-1 {
+    font-size: 5rem;
+    font-family: var(--font-heading);
+}
+
+.display-2 {
+    font-size: 4.5rem;
+    font-family: var(--font-heading);
+}
+
+.display-3 {
+    font-size: 4rem;
+    font-family: var(--font-heading);
+}
+
+.display-4 {
+    font-size: 3.5rem;
+    font-family: var(--font-heading);
+}
+
+.display-5 {
+    font-size: 3rem;
+    font-family: var(--font-heading);
+}
+
+.display-6 {
+    font-size: 2.5rem;
+    font-family: var(--font-heading);
 }
 
 /* Gradients */
@@ -50,16 +113,26 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Botões */
 .btn {
-    border-radius: 1rem !important;
-    font-weight: 600;
-    padding: 0.75rem 2rem;
+    border-radius: 1.5rem !important;
+    font-weight: 700;
+    font-family: var(--font-heading);
+    padding: 1rem 2.5rem;
     transition: all 0.3s ease;
     border: none;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
 }
 
 .btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.btn-lg {
+    padding: 1.2rem 3rem;
+    font-size: 1.4rem;
+    min-height: 70px;
 }
 
 .btn-primary {
@@ -298,18 +371,31 @@ footer {
 .opcao-card {
     cursor: pointer;
     transition: all 0.3s ease;
-    border: 3px solid transparent;
+    border: 4px solid transparent;
+    border-radius: 1.5rem !important;
+    min-height: 180px;
+}
+
+.opcao-card .card-title {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.opcao-card i {
+    font-size: 4rem !important;
 }
 
 .opcao-card:hover {
     border-color: var(--marycats-yellow);
-    transform: scale(1.02);
+    transform: scale(1.03);
 }
 
 .opcao-card.selected {
     background-color: var(--marycats-yellow) !important;
     border-color: var(--marycats-yellow);
-    transform: scale(1.02);
+    transform: scale(1.03);
 }
 
 .opcao-card.selected .text-marycats-yellow {
@@ -420,14 +506,16 @@ footer {
 /* Continuar button states */
 .btn-continuar-disabled {
     background-color: var(--marycats-dark-pink) !important;
-    border: 3px solid var(--marycats-yellow) !important;
+    border: 4px solid var(--marycats-yellow) !important;
     color: var(--marycats-yellow) !important;
+    font-size: 1.3rem;
 }
 
 .btn-continuar-enabled {
     background-color: var(--marycats-yellow);
-    border: 3px solid var(--marycats-yellow);
+    border: 4px solid var(--marycats-yellow);
     color: var(--marycats-dark-pink);
+    font-size: 1.3rem;
 }
 
 .btn-continuar-disabled:disabled {
@@ -443,55 +531,80 @@ footer {
 /* Responsividade para Totem */
 @media (min-width: 1920px) {
     .container {
-        max-width: 1400px;
+        max-width: 1600px;
     }
     
     .display-1 {
-        font-size: 5rem;
+        font-size: 6rem;
     }
     
     .display-2 {
-        font-size: 4.5rem;
+        font-size: 5.5rem;
     }
     
     .display-3 {
-        font-size: 4rem;
+        font-size: 5rem;
     }
     
     .display-4 {
+        font-size: 4.5rem;
+    }
+    
+    .question-title {
         font-size: 3.5rem;
     }
     
+    .question-subtitle {
+        font-size: 1.8rem;
+    }
+    
+    .opcao-card .card-title {
+        font-size: 2.2rem;
+    }
+    
+    .opcao-card i {
+        font-size: 5rem !important;
+    }
+    
     .btn-lg {
-        padding: 1rem 3rem;
-        font-size: 1.25rem;
+        padding: 1.5rem 3.5rem;
+        font-size: 1.6rem;
+        min-height: 90px;
     }
     
     .form-control-lg, .form-select-lg {
         padding: 1rem 2rem;
-        font-size: 1.2rem;
+        font-size: 1.4rem;
     }
 }
 
 /* Portrait Display Optimization (1080x1920) */
 @media (min-width: 1080px) and (orientation: portrait) {
     .container-fluid {
-        padding-left: 2rem;
-        padding-right: 2rem;
+        padding-left: 3rem;
+        padding-right: 3rem;
     }
     
     .display-3 {
-        font-size: 3.5rem;
+        font-size: 4.5rem;
     }
     
     .display-4 {
-        font-size: 3rem;
+        font-size: 4rem;
+    }
+    
+    .question-title {
+        font-size: 3.2rem;
+    }
+    
+    .question-subtitle {
+        font-size: 1.6rem;
     }
     
     .btn-lg {
-        padding: 1.2rem 3rem;
-        font-size: 1.3rem;
-        min-height: 80px;
+        padding: 1.4rem 3.5rem;
+        font-size: 1.5rem;
+        min-height: 85px;
     }
     
     .card {
@@ -500,6 +613,14 @@ footer {
     
     .card-body {
         padding: 2rem;
+    }
+    
+    .opcao-card .card-title {
+        font-size: 2rem;
+    }
+    
+    .opcao-card i {
+        font-size: 4.5rem !important;
     }
     
     /* Dashboard specific styling */
@@ -520,14 +641,18 @@ footer {
 /* Touch-friendly para telas de totem */
 @media (min-width: 768px) {
     .opcao-card {
-        min-height: 200px;
+        min-height: 220px;
         display: flex;
         align-items: center;
         justify-content: center;
     }
     
+    .opcao-card .card-title {
+        font-size: 1.6rem;
+    }
+    
     .btn {
-        min-height: 160px;
+        min-height: 70px;
         display: flex;
         align-items: center;
         justify-content: center;

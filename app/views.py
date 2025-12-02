@@ -95,7 +95,7 @@ def pergunta_dupla(request, step=1):
     """Perguntas com duas opções"""
     perguntas = {
         1: {
-            'titulo': 'Qual tipo de bichinho você está procurando?',
+            'titulo': 'Escolha seu novo melhor amigo.',
             'opcoes': [
                 {'valor': 'cachorro', 'texto': 'Cachorro', 'icone': 'fas fa-dog fa-5x'},
                 {'valor': 'gato', 'texto': 'Gato', 'icone': 'fas fa-cat fa-5x'}
@@ -103,7 +103,7 @@ def pergunta_dupla(request, step=1):
             'proxima': '/pergunta/dupla/2/'
         },
         2: {
-            'titulo': 'Você prefere macho ou fêmea?',
+            'titulo': 'Você tem preferência de gênero do bichinho?',
             'opcoes': [
                 {'valor': 'macho', 'texto': 'Macho', 'icone': 'fas fa-mars fa-5x'},
                 {'valor': 'femea', 'texto': 'Fêmea', 'icone': 'fas fa-venus fa-5x'}
@@ -111,7 +111,7 @@ def pergunta_dupla(request, step=1):
             'proxima': '/pergunta/dupla/3/'
         },
         3: {
-            'titulo': 'Qual faixa etária você prefere?',
+            'titulo': 'Que idade de gatinho você prefere?',
             'opcoes': [
                 {'valor': 'filhote', 'texto': 'Filhote', 'icone': 'fas fa-dog fa-5x'},
                 {'valor': 'adulto', 'texto': 'Adulto', 'icone': 'fas fa-paw fa-5x'}

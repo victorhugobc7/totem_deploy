@@ -47,8 +47,9 @@
         
         <!-- Nome e Tipo -->
         <div class="mb-4 text-center">
-            <h1 class="display-4 fw-bold text-marycats-yellow mb-2">{{ pet.nome }}</h1>
-            <p class="lead text-white-50 mb-0">
+            <h3 class="text-white mb-3 fs-4" style="font-family: var(--font-heading);">Vamos juntos transformar essa vida?</h3>
+            <h1 class="display-2 fw-bold text-marycats-yellow mb-3" style="font-family: var(--font-heading);">{{ pet.nome }}</h1>
+            <p class="lead text-white-50 mb-0 fs-4">
                 <i class="fas fa-tag me-2 text-marycats-yellow"></i>
                 {% if pet.raca %}{{ pet.raca }} • {% endif %}{{ pet.get_tipo_display }} • {{ pet.get_sexo_display }}
             </p>

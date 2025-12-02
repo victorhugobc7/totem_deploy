@@ -4,39 +4,39 @@
 {% block title %}{{ pergunta.titulo }} - Totem de Adoção{% endblock %}
 
 {% block content %}
-<div class="container-fluid h-100 d-flex align-items-center justify-content-center bg-gradient-light">
+<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-gradient-light py-4">
     <div class="row w-100">
-        <div class="col-12 col-md-10 col-lg-8 mx-auto">
+        <div class="col-12 col-md-11 col-lg-10 mx-auto">
             <!-- Voltar Button -->
-            <div class="row mb-2">
+            <div class="row mb-3">
                 <div class="col-12">
-                    <button id="btn-voltar" class="btn btn-outline-marycats-yellow bg-marycats-dark-pink text-marycats-yellow rounded-pill px-4">
+                    <button id="btn-voltar" class="btn btn-outline-marycats-yellow bg-marycats-dark-pink text-marycats-yellow rounded-pill px-4 py-2">
                         <i class="fas fa-arrow-left me-2"></i>Voltar
                     </button>
                 </div>
             </div>
             
             <!-- Progress Bar -->
-            <div class="progress mb-3">
+            <div class="progress mb-4" style="height: 12px;">
                 <div class="progress-bar bg-primary" role="progressbar" 
                      style="background-color: var(--marycats-yellow) !important; width: 100%"></div>
             </div>
             
             <!-- Título da Pergunta -->
-            <div class="text-center mb-3">
-                <h2 class="display-6 fw-bold question-title mb-2">{{ pergunta.titulo }}</h2>
-                <p class="question-title fw-bolder">Escolha a opção que melhor se encaixa com você</p>
+            <div class="text-center mb-5">
+                <h2 class="question-title fw-bold mb-3">{{ pergunta.titulo }}</h2>
+                <p class="question-subtitle fw-bold">Escolha a opção que melhor se encaixa com você</p>
             </div>
             
             <!-- Opções de Resposta -->
-            <div class="row g-3 mb-3">
+            <div class="row g-4 mb-4 justify-content-center">
                 {% for opcao in pergunta.opcoes %}
-                <div class="col-md-4">
-                    <div class="card h-100 border-3 shadow-sm opcao-card cursor-pointer bg-marycats-dark-pink border-marycats-yellow" 
+                <div class="col-6 col-md-4">
+                    <div class="card h-100 border-4 shadow-lg opcao-card cursor-pointer bg-marycats-dark-pink border-marycats-yellow" 
                          data-valor="{{ opcao.valor }}">
-                        <div class="text-center p-3">
-                            <div class="mb-2">
-                                <i class="{{ opcao.icone }} text-marycats-yellow" style="font-size: 3rem;"></i>
+                        <div class="text-center p-4">
+                            <div class="mb-3">
+                                <i class="{{ opcao.icone }} text-marycats-yellow"></i>
                             </div>
                             <h5 class="card-title text-marycats-yellow mb-0">{{ opcao.texto }}</h5>
                         </div>
@@ -45,15 +45,15 @@
                 {% endfor %}
             </div>
             <!-- Botões -->
-            <div class="row g-2">
+            <div class="row g-3 mt-4">
                 <div class="col-md-6">
-                    <button id="btn-continuar" class="btn btn-continuar-disabled btn-lg rounded-pill w-100 py-2 fw-bold" 
+                    <button id="btn-continuar" class="btn btn-continuar-disabled btn-lg rounded-pill w-100 py-3 fw-bold" 
                             disabled>
                         Continuar <i class="fas fa-arrow-right ms-2"></i>
                     </button>
                 </div>
                 <div class="col-md-6">
-                    <button id="btn-sem-preferencia" class="btn btn-outline-marycats-yellow bg-marycats-dark-pink text-marycats-yellow btn-lg rounded-pill w-100 py-2">
+                    <button id="btn-sem-preferencia" class="btn btn-outline-marycats-yellow bg-marycats-dark-pink text-marycats-yellow btn-lg rounded-pill w-100 py-3">
                         Não tenho preferência
                     </button>
                 </div>
