@@ -70,29 +70,16 @@
                             </div>
                         </div>
                         
-                        <!-- Personalidade -->
-                        <div class="mb-4">
-                            <h5 class="text-primary mb-3">
-                                <i class="fas fa-heart me-2"></i>Personalidade
-                            </h5>
-                            <div class="mb-3">
-                                <label for="personalidade" class="form-label fw-bold">Descreva a personalidade do pet *</label>
-                                <textarea class="form-control form-control-lg rounded-3" 
-                                          id="personalidade" name="personalidade" required rows="3"
-                                          placeholder="Ex: Muito brincalhão, carinhoso, gosta de crianças..."></textarea>
-                            </div>
-                        </div>
-                        
                         <!-- Descrição -->
                         <div class="mb-4">
                             <h5 class="text-primary mb-3">
                                 <i class="fas fa-file-alt me-2"></i>História e Características
                             </h5>
                             <div class="mb-3">
-                                <label for="descricao" class="form-label fw-bold">Conte mais sobre o pet</label>
+                                <label for="descricao" class="form-label fw-bold">Conte mais sobre o bichinho</label>
                                 <textarea class="form-control form-control-lg rounded-3" 
                                           id="descricao" name="descricao" rows="4"
-                                          placeholder="História do pet, necessidades especiais, preferências, etc."></textarea>
+                                          placeholder="História do bichinho, necessidades especiais, preferências, etc."></textarea>
                             </div>
                         </div>
                         
@@ -152,7 +139,7 @@ $('#form-cadastro').on('submit', function(e) {
     }
     
     // Verificar se todos os campos obrigatórios estão preenchidos
-    const camposObrigatorios = ['nome', 'tipo', 'raca', 'idade', 'porte', 'personalidade'];
+    const camposObrigatorios = ['nome', 'tipo', 'sexo'];
     for (let campo of camposObrigatorios) {
         if (!$('#' + campo).val()) {
             e.preventDefault();
