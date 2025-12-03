@@ -265,7 +265,7 @@
                     {% if pet.idade %}
                     <p class="pet-card-info mb-3">
                         <i class="fas fa-calendar-alt me-1"></i>
-                        {{ pet.idade }} ano{{ pet.idade|pluralize }}
+                        {{ pet.get_idade_display }}
                     </p>
                     {% endif %}
                     

@@ -1,5 +1,4 @@
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Pet(models.Model):
     TIPO_CHOICES = [
@@ -32,13 +31,19 @@ class Pet(models.Model):
         ('femea', 'Fêmea'),
     ]
     
+    IDADE_CHOICES = [
+        ('filhote', 'Filhote'),
+        ('adulto', 'Adulto'),
+    ]
+    
     nome = models.CharField(max_length=100, verbose_name='Nome do Bichinho')
     tipo = models.CharField(max_length=20, choices=TIPO_CHOICES, verbose_name='Tipo')
     sexo = models.CharField(max_length=10, choices=SEXO_CHOICES, default='macho', verbose_name='Sexo')
     raca = models.CharField(max_length=100, verbose_name='Raça', blank=True, null=True)
-    idade = models.IntegerField(
-        validators=[MinValueValidator(0), MaxValueValidator(30)],
-        verbose_name='Idade (anos)',
+    idade = models.CharField(
+        max_length=20,
+        choices=IDADE_CHOICES,
+        verbose_name='Idade',
         blank=True,
         null=True
     )
@@ -59,14 +64,8 @@ class Pet(models.Model):
     
     @property
     def idade_categoria(self):
-        if self.idade is None:
-            return 'desconhecido'
-        if self.idade <= 2:
-            return 'filhote'
-        elif self.idade <= 7:
-            return 'adulto'
-        else:
-            return 'idoso'
+        """Retorna a categoria de idade para compatibilidade"""
+        return self.idade if self.idade else 'desconhecido'
     
     @classmethod
     def get_porte_choices_for_tipo(cls, tipo):

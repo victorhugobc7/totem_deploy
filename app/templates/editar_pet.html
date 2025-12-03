@@ -41,8 +41,12 @@
                                 <input class="form-control form-control-lg rounded-3" id="raca" name="raca" value="{{ pet.raca|default:'' }}" placeholder="Opcional">
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold" for="idade">Idade (anos)</label>
-                                <input type="number" min="0" max="30" class="form-control form-control-lg rounded-3" id="idade" name="idade" value="{{ pet.idade|default:'' }}" placeholder="Opcional">
+                                <label class="form-label fw-bold" for="idade">Idade</label>
+                                <select class="form-select form-select-lg rounded-3" id="idade" name="idade">
+                                    <option value="">Selecione (opcional)</option>
+                                    <option value="filhote" {% if pet.idade == 'filhote' %}selected{% endif %}>Filhote</option>
+                                    <option value="adulto" {% if pet.idade == 'adulto' %}selected{% endif %}>Adulto</option>
+                                </select>
                             </div>
                         </div>
                         <div class="mb-3">

@@ -249,8 +249,7 @@ def cadastrar_pet(request):
     if request.method == 'POST':
         try:
             # Handle optional fields
-            idade_str = request.POST.get('idade', '').strip()
-            idade = int(idade_str) if idade_str else None
+            idade = request.POST.get('idade', '').strip() or None
             
             personalidade = request.POST.get('personalidade', '').strip() or None
             raca = request.POST.get('raca', '').strip() or None
@@ -363,8 +362,7 @@ def core_cadastrar_pet(request):
     if request.method == 'POST':
         try:
             # Handle optional fields
-            idade_str = request.POST.get('idade', '').strip()
-            idade = int(idade_str) if idade_str else None
+            idade = request.POST.get('idade', '').strip() or None
             
             personalidade = request.POST.get('personalidade', '').strip() or None
             raca = request.POST.get('raca', '').strip() or None
@@ -427,8 +425,7 @@ def editar_pet(request, pet_id):
     if request.method == 'POST':
         try:
             # Handle optional idade field
-            idade_str = request.POST.get('idade', '').strip()
-            idade = int(idade_str) if idade_str else None
+            idade = request.POST.get('idade', '').strip() or None
             
             # Handle optional fields
             personalidade = request.POST.get('personalidade', '').strip() or None
