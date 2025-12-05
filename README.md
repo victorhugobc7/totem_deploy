@@ -1,34 +1,34 @@
-# 🐕 Totem de Autoatendimento para Adoção de Pets
+#  Totem de Autoatendimento para Adoção de Pets
 
 Sistema inteligente de totem de autoatendimento que conecta pets disponíveis para adoção com pessoas compatíveis através de um fluxo de decisão interativo.
 
-## 🎯 Funcionalidades Principais
+## Funcionalidades Principais
 
-### ✅ Sistema de Fluxo de Decisão
+###  Sistema de Fluxo de Decisão
 - **Interface intuitiva** com múltiplas escolhas sequenciais
 - **Algoritmo inteligente** que calcula compatibilidade baseado nas preferências
 - **2 caminhos de decisão distintos**: Família com crianças e Apartamento pequeno
 - **5 perguntas interativas** sobre tipo, porte, idade, personalidade e tempo disponível
 
-### ✅ Cadastro de Pets
+###  Cadastro de Pets
 - **Formulário completo** com validação de dados
 - **Campos**: nome, tipo (cachorro/gato), raça, idade, porte, personalidade
 - **Upload de imagens** com preview em tempo real
 - **Armazenamento seguro** em banco de dados relacional
 
-### ✅ Recuperação de Informações
+###  Recuperação de Informações
 - **Sistema de busca inteligente** com filtros baseados nas escolhas do usuário
 - **Ordenação por compatibilidade** (0-100%)
 - **Exibição clara e organizada** com cards interativos
 - **Recomendações personalizadas** baseadas no perfil do usuário
 
-### ✅ Interface Responsiva
+###  Interface Responsiva
 - **Design moderno** com Bootstrap 5.3
 - **Otimizado para touch screen** de totens
 - **100% responsivo** para diferentes tamanhos de tela
 - **Animações suaves** e feedback visual
 
-## 🚀 Tecnologias Utilizadas
+##  Tecnologias Utilizadas
 
 - **Backend**: Django 5.2.8 (Python)
 - **Frontend**: Django Templates, Bootstrap 5.3, JavaScript
@@ -36,14 +36,14 @@ Sistema inteligente de totem de autoatendimento que conecta pets disponíveis pa
 - **Estilos**: CSS3 com gradientes e animações
 - **Ícones**: Font Awesome 6.4
 
-## 📋 Documentação
+##  Documentação
 
-- [📄 Requisitos do Produto](.trae/documents/prd-requisitos-totem-pet.md)
-- [🏗️ Arquitetura Técnica](.trae/documents/arquitetura-tecnica-totem-pet.md)
-- [📊 Relatório de Fluxo de Decisão](.trae/documents/relatorio-fluxo-decisao.md)
-- [📖 Guia de Instalação e Uso](.trae/documents/guia-instalacao-uso.md)
+- [ Requisitos do Produto](.trae/documents/prd-requisitos-totem-pet.md)
+- [ Arquitetura Técnica](.trae/documents/arquitetura-tecnica-totem-pet.md)
+- [ Relatório de Fluxo de Decisão](.trae/documents/relatorio-fluxo-decisao.md)
+- [ Guia de Instalação e Uso](.trae/documents/guia-instalacao-uso.md)
 
-## ⚡ Instalação Rápida
+##  Instalação Rápida
 
 ### Opção 1: Script Automático
 ```bash
@@ -67,13 +67,13 @@ python criar_dados_teste.py
 python manage.py runserver 0.0.0.0:8000
 ```
 
-## 🌐 Acesso ao Sistema
+##  Acesso ao Sistema
 
 Após iniciar o servidor, acesse:
 - **Sistema Principal**: http://localhost:8000/
 - **Admin Django**: http://localhost:8000/admin/
 
-## 📱 Fluxo de Uso
+##  Fluxo de Uso
 
 ### Para Usuários
 1. **Início**: Tela inicial com botão "Começar Agora"
@@ -87,7 +87,7 @@ Após iniciar o servidor, acesse:
 2. **Gestão**: Gerencie pets pelo painel administrativo
 3. **Monitoramento**: Acompanhe estatísticas de uso
 
-## 🎨 Design
+##  Design
 
 ### Paleta de Cores
 - **Primária**: Azul petróleo (#667eea)
@@ -100,7 +100,7 @@ Após iniciar o servidor, acesse:
 - **Títulos**: Bold (700)
 - **Corpo**: Regular (400)
 
-## 🔧 Algoritmo de Compatibilidade
+##  Algoritmo de Compatibilidade
 
 O sistema calcula compatibilidade baseado em:
 - **Tipo de Pet** (0-40 pontos)
@@ -110,7 +110,7 @@ O sistema calcula compatibilidade baseado em:
 
 **Resultado**: Score de 0-100% com mínimo de 50% para exibição
 
-## 📊 Exemplos de Caminhos
+##  Exemplos de Caminhos
 
 ### Caminho 1: Família com Crianças
 - Tipo: Cachorro → Grande → Filhote/Adulto → Brincalhão → Muito tempo
@@ -120,7 +120,7 @@ O sistema calcula compatibilidade baseado em:
 - Tipo: Gato → Pequeno → Adulto → Calmo → Pouco tempo
 - Resultados: Persa (90%), Shih Tzu (87%), Maine Coon (85%)
 
-## 🗂️ Estrutura do Projeto
+##  Estrutura do Projeto
 
 ```
 totem_auto/
@@ -141,7 +141,7 @@ totem_auto/
 └── manage.py             # Gerenciador Django
 ```
 
-## 🧪 Testes
+## Testes
 
 ### Dados de Teste Inclusos
 - 8 pets com diferentes características
@@ -149,13 +149,13 @@ totem_auto/
 - Diversas raças e personalidades
 
 ### Casos de Teste
-- ✅ Fluxo completo de decisão
-- ✅ Cadastro de novos pets
-- ✅ Sistema de compatibilidade
-- ✅ Responsividade multi-dispositivo
-- ✅ Validação de formulários
+- Fluxo completo de decisão
+- Cadastro de novos pets
+- Sistema de compatibilidade
+- Responsividade multi-dispositivo
+- Validação de formulários
 
-## 🔒 Segurança
+## Segurança
 
 - **CSRF Protection**: Tokens CSRF em todos os formulários
 - **Validação de Dados**: Server-side validation
@@ -169,7 +169,7 @@ totem_auto/
 - **Cache de Sessão**: Preferências armazenadas localmente
 - **Imagens Otimizadas**: Upload com compressão automática
 
-## 🤝 Contribuindo
+## Contribuindo
 
 1. Fork o projeto
 2. Crie sua feature branch (`git checkout -b feature/AmazingFeature`)
@@ -177,17 +177,17 @@ totem_auto/
 4. Push para a branch (`git push origin feature/AmazingFeature`)
 5. Abra um Pull Request
 
-## 📝 Licença
+## Licença
 
 Este projeto está licenciado sob a MIT License - veja o arquivo [LICENSE](LICENSE) para detalhes.
 
-## 📞 Suporte
+## Suporte
 
 - **Documentação**: Consulte os arquivos em `.trae/documents/`
 - **Issues**: Reporte problemas no repositório
 - **Email**: suporte@totempet.com
 
-## 🙏 Agradecimentos
+## Agradecimentos
 
 - Django Framework pela excelente base de desenvolvimento
 - Bootstrap pela interface responsiva
@@ -196,4 +196,4 @@ Este projeto está licenciado sob a MIT License - veja o arquivo [LICENSE](LICEN
 
 ---
 
-**❤️ Desenvolvido com amor para ajudar pets a encontrarem lares am
+** Desenvolvido com amor para ajudar pets a encontrarem lares am
